@@ -9,12 +9,13 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({
     Key? key,
     required this.user,
-    this.service = const ProfileService(),
+    required this.service,
     this.style = const ProfileStyle(),
     this.customAvatar,
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
+    this.showDeleteProfile = true,
   }) : super(key: key);
 
   final User user;
@@ -22,7 +23,9 @@ class ProfilePage extends StatefulWidget {
   final ProfileStyle style;
   final Widget? customAvatar;
   final bool showAvatar;
+  final bool showDeleteProfile;
   final ItemBuilder? itemBuilder;
+
   final ItemBuilderOptions? itemBuilderOptions;
 
   @override
@@ -30,37 +33,140 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    return ProfileWrapper(
+      service: widget.service,
+      user: widget.user,
+      rebuild: () {
+        setState(() {});
+      },
+      style: widget.style,
+      customAvatar: widget.customAvatar,
+      showAvatar: widget.showAvatar,
+      showDeleteProfile: widget.showDeleteProfile,
+      itemBuilder: widget.itemBuilder,
+      itemBuilderOptions: widget.itemBuilderOptions,
+      key: UniqueKey(),
+    );
+  }
+}
+
+class ProfileWrapper extends StatefulWidget {
+  const ProfileWrapper({
+    Key? key,
+    required this.user,
+    required this.service,
+    required this.rebuild,
+    this.style = const ProfileStyle(),
+    this.customAvatar,
+    this.showAvatar = true,
+    this.itemBuilder,
+    this.itemBuilderOptions,
+    this.showDeleteProfile = true,
+  }) : super(key: key);
+
+  final User user;
+  final ProfileService service;
+  final ProfileStyle style;
+  final Widget? customAvatar;
+  final bool showAvatar;
+  final bool showDeleteProfile;
+  final ItemBuilder? itemBuilder;
+  final Function rebuild;
+  final ItemBuilderOptions? itemBuilderOptions;
+
+  @override
+  State<ProfileWrapper> createState() => _ProfileWrapperState();
+}
+
+class _ProfileWrapperState extends State<ProfileWrapper> {
   late List<Widget> profileItems;
+  List<Widget> defaultItems = [];
+
   @override
   void initState() {
     super.initState();
     profileItems = widget.user.profileData!.buildItems(
       widget.user.profileData!.toMap(),
-      widget.user.profileData!.mapWidget(),
+      widget.user.profileData!.mapWidget(() {
+        widget.rebuild();
+      }),
+      widget.style.betweenDefaultItemPadding,
       (key, value) {
-        const ProfileService().editProfile(widget.user, key, value);
+        widget.service.editProfile(widget.user, key, value);
       },
       itemBuilder: widget.itemBuilder,
       itemBuilderOptions: widget.itemBuilderOptions,
     );
+    if (widget.itemBuilder == null) {
+      ItemBuilder builder = ItemBuilder(
+        options: widget.itemBuilderOptions ?? const ItemBuilderOptions(),
+      );
+      defaultItems.add(builder.build(widget.user.firstName, null, (v) {
+        widget.user.firstName = v;
+      }));
+      defaultItems.add(
+        SizedBox(
+          height: widget.style.betweenDefaultItemPadding,
+        ),
+      );
+      defaultItems.add(builder.build(widget.user.lastName, null, (v) {
+        widget.user.lastName = v;
+      }));
+    } else {
+      defaultItems
+          .add(widget.itemBuilder!.build(widget.user.firstName, null, (v) {
+        widget.user.firstName = v;
+      }));
+      defaultItems.add(
+        SizedBox(
+          height: widget.style.betweenDefaultItemPadding,
+        ),
+      );
+      defaultItems
+          .add(widget.itemBuilder!.build(widget.user.lastName, null, (v) {
+        widget.user.lastName = v;
+      }));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
+        padding: widget.style.pagePadding,
         child: Column(
           children: [
             if (widget.showAvatar)
-              Avatar(
-                name: '${widget.user.firstName} ${widget.user.lastName}',
-                style: widget.style.avatarStyle,
-                displayName: widget.user.displayName,
-                avatar: widget.customAvatar,
-                image: widget.user.image,
+              InkWell(
+                onTap: () {
+                  widget.service.uploadImage();
+                },
+                child: Avatar(
+                  name: '${widget.user.firstName} ${widget.user.lastName}',
+                  style: widget.style.avatarStyle,
+                  avatar: widget.customAvatar,
+                  image: widget.user.image,
+                ),
               ),
+            if (widget.showAvatar)
+              SizedBox(
+                height: widget.style.betweenDefaultItemPadding,
+              ),
+            ...defaultItems,
             ...profileItems,
+            if (widget.showDeleteProfile)
+              SizedBox(
+                height: widget.style.betweenDefaultItemPadding,
+              ),
+            if (widget.showDeleteProfile)
+              InkWell(
+                onTap: () {
+                  widget.service.deleteProfile();
+                },
+                child: const Text('Profiel verwijderen'),
+              ),
           ],
         ),
       ),

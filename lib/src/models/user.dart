@@ -6,14 +6,12 @@ import 'package:profile/src/widgets/item_builder/item_builder.dart';
 import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
 
 class User<T extends ProfileData> {
-  String? displayName;
   String? firstName;
   String? lastName;
   Uint8List? image;
   T? profileData;
 
   User(
-    this.displayName,
     this.firstName,
     this.lastName,
     this.image,
@@ -22,7 +20,6 @@ class User<T extends ProfileData> {
 
   factory User.fromMap(Map<String, dynamic> data) {
     return User(
-      data['displayName'],
       data['firstName'],
       data['lastName'],
       data['image'],
@@ -32,7 +29,6 @@ class User<T extends ProfileData> {
 
   Map<String, dynamic> toMap() {
     return {
-      'displayName': displayName,
       'firstName': firstName,
       'lastName': lastName,
       'image': image,
@@ -48,13 +44,14 @@ abstract class ProfileData {
 
   Map<String, dynamic> toMap();
 
-  Map<String, dynamic> mapWidget();
+  Map<String, dynamic> mapWidget(Function update);
 
   ProfileData create();
 
   List<Widget> buildItems(
     Map<String, dynamic> items,
     Map<String, dynamic> typeMap,
+    double spacing,
     Function(String, String) updateProfile, {
     ItemBuilder? itemBuilder,
     ItemBuilderOptions? itemBuilderOptions,
@@ -83,6 +80,9 @@ abstract class ProfileData {
                 },
               ),
             );
+      widgets.add(SizedBox(
+        height: spacing,
+      ));
     }
     return widgets;
   }

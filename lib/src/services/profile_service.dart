@@ -1,9 +1,12 @@
 import 'package:profile/profile.dart';
 
-class ProfileService {
+abstract class ProfileService {
   const ProfileService();
 
-  deleteProfile() {}
+  deleteProfile() {
+    print("Request to delete profile");
+    // TODO(anyone) project specific
+  }
 
   editProfile<T extends ProfileData>(User user, String key, String value) {
     if (user.profileData != null) {
@@ -16,5 +19,8 @@ class ProfileService {
     }
   }
 
-  uploadImage() {}
+  uploadImage() {
+    print('Request to change picture');
+    // TODO(anyone) open image picker and update profile
+  }
 }

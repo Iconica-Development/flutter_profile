@@ -16,13 +16,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late User _user;
-  MyProfileData profileData = const MyProfileData();
+  MyProfileData profileData = MyProfileData();
 
   @override
   void initState() {
     super.initState();
     _user = User(
-      'displayName',
       'firstName',
       'lastName',
       Uint8List.fromList(
@@ -39,30 +38,97 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: ProfilePage(
+        service: MyProfileService(),
         user: _user,
       ),
     );
   }
 }
 
+class MyProfileService extends ProfileService {
+  @override
+  deleteProfile() {
+    return super.deleteProfile();
+  }
+
+  @override
+  editProfile<T extends ProfileData>(
+      User<ProfileData> user, String key, String value) {
+    return super.editProfile(user, key, value);
+  }
+
+  @override
+  uploadImage() {
+    return super.uploadImage();
+  }
+}
+
 class MyProfileData extends ProfileData {
-  const MyProfileData({
+  MyProfileData({
     this.justMyNumber = '1',
     this.justMyString = 2,
   });
 
   final String justMyNumber;
-  final int justMyString;
+  int justMyString;
 
   @override
-  Map<String, dynamic> mapWidget() {
+  Map<String, dynamic> mapWidget(Function update) {
     return {
-      'justMyNumber': Container(
+      'justMyString': Container(
         height: 100,
-        width: 100,
-        color: Colors.red,
+        width: 300,
+        child: Row(
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: justMyString == 1 ? Colors.green : Colors.blue,
+              ),
+              onPressed: () {
+                justMyString = 1;
+                update();
+                print(justMyString);
+              },
+              child: const Text('1'),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: justMyString == 2 ? Colors.green : Colors.blue,
+              ),
+              onPressed: () {
+                justMyString = 2;
+                update();
+                print(justMyString);
+              },
+              child: const Text('2'),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: justMyString == 3 ? Colors.green : Colors.blue,
+              ),
+              onPressed: () {
+                justMyString = 3;
+                update();
+              },
+              child: const Text('3'),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: justMyString == 4 ? Colors.green : Colors.blue,
+              ),
+              onPressed: () {
+                justMyString = 4;
+                update();
+              },
+              child: const Text('4'),
+            ),
+          ],
+        ),
       ),
-      'justMyString': null,
+      'justMyNumber': null,
     };
   }
 
@@ -86,6 +152,6 @@ class MyProfileData extends ProfileData {
 
   @override
   ProfileData create() {
-    return const MyProfileData();
+    return MyProfileData();
   }
 }

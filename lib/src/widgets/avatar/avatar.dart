@@ -9,13 +9,11 @@ class Avatar extends StatelessWidget {
     this.image,
     this.name,
     this.avatar,
-    this.displayName,
     this.style = const AvatarStyle(),
   }) : super(key: key);
 
   final Uint8List? image;
   final String? name;
-  final String? displayName;
   final Widget? avatar;
   final AvatarStyle style;
 
@@ -24,9 +22,9 @@ class Avatar extends StatelessWidget {
     return Column(
       children: [
         _avatar(),
-        if (displayName != null)
+        if (name != null)
           Text(
-            displayName!,
+            name!,
             style: style.displayNameStyle,
           )
       ],
