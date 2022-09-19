@@ -8,19 +8,42 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(dynamic value, Widget? widget, Function(String) updateItem) {
+  Widget build(
+      String key, dynamic value, Widget? widget, Function(String) updateItem) {
     if (widget == null) {
       var controller = TextEditingController(
-        text: '$value',
+        text: '${value ?? ''}',
       );
 
-      return TextField(
-        controller: controller,
-        decoration: options.inputDecoration,
-        readOnly: options.readOnly,
-        onSubmitted: (s) {
-          updateItem(s);
-        },
+      late InputDecoration inputDecoration;
+      if (options.inputDecorationField != null &&
+          options.inputDecorationField![key] != null) {
+        inputDecoration = options.inputDecorationField![key]!;
+      } else {
+        inputDecoration = options.inputDecoration;
+      }
+
+      final formKey = GlobalKey<FormState>();
+
+      return Form(
+        key: formKey,
+        child: TextFormField(
+          controller: controller,
+          decoration: inputDecoration,
+          readOnly: options.readOnly,
+          onFieldSubmitted: (value) {
+            if (formKey.currentState!.validate()) {
+              updateItem(value);
+            }
+          },
+          validator: (value) {
+            if (options.validators != null &&
+                options.validators![key] != null) {
+              return options.validators![key]!(value);
+            }
+            return null;
+          },
+        ),
       );
     }
     return widget;

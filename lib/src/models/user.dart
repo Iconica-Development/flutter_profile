@@ -2,8 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:profile/profile.dart';
-import 'package:profile/src/widgets/item_builder/item_builder.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
 
 class User<T extends ProfileData> {
   String? firstName;
@@ -44,7 +42,7 @@ abstract class ProfileData {
 
   Map<String, dynamic> toMap();
 
-  Map<String, dynamic> mapWidget(Function update);
+  Map<String, dynamic> mapWidget(VoidCallback update, BuildContext context);
 
   ProfileData create();
 
@@ -58,12 +56,13 @@ abstract class ProfileData {
   }) {
     var widgets = <Widget>[];
     ItemBuilder builder = ItemBuilder(
-      options: itemBuilderOptions ?? const ItemBuilderOptions(),
+      options: itemBuilderOptions ?? ItemBuilderOptions(),
     );
     for (var item in items.entries) {
       itemBuilder == null
           ? widgets.add(
               builder.build(
+                item.key,
                 item.value,
                 typeMap[item.key],
                 (value) {
@@ -73,6 +72,7 @@ abstract class ProfileData {
             )
           : widgets.add(
               itemBuilder.build(
+                item.key,
                 item.value,
                 typeMap[item.key],
                 (value) {

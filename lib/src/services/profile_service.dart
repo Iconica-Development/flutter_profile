@@ -1,12 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:profile/profile.dart';
 
 abstract class ProfileService {
   const ProfileService();
 
-  deleteProfile() {
-    print("Request to delete profile");
-    // TODO(anyone) project specific
-  }
+  deleteProfile() {}
 
   editProfile<T extends ProfileData>(User user, String key, String value) {
     if (user.profileData != null) {
@@ -19,8 +17,5 @@ abstract class ProfileService {
     }
   }
 
-  uploadImage() {
-    print('Request to change picture');
-    // TODO(anyone) open image picker and update profile
-  }
+  uploadImage(BuildContext context) async {}
 }

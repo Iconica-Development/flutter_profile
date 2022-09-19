@@ -7,13 +7,15 @@ class Avatar extends StatelessWidget {
   const Avatar({
     Key? key,
     this.image,
-    this.name,
+    this.firstName,
+    this.lastName,
     this.avatar,
     this.style = const AvatarStyle(),
   }) : super(key: key);
 
   final Uint8List? image;
-  final String? name;
+  final String? firstName;
+  final String? lastName;
   final Widget? avatar;
   final AvatarStyle style;
 
@@ -22,9 +24,12 @@ class Avatar extends StatelessWidget {
     return Column(
       children: [
         _avatar(),
-        if (name != null)
+        const SizedBox(
+          height: 16,
+        ),
+        if (firstName != null || lastName != null)
           Text(
-            name!,
+            '${firstName ?? ''} ${lastName ?? ''}',
             style: style.displayNameStyle,
           )
       ],
@@ -39,22 +44,26 @@ class Avatar extends StatelessWidget {
       return Container(
         width: style.width,
         height: style.height,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
+          image: DecorationImage(
+            image: MemoryImage(image!),
+            fit: BoxFit.fill,
+          ),
         ),
-        child: Image.memory(image!),
       );
-    } else if (name != null && name!.isNotEmpty) {
+    } else if (firstName != null || lastName != null) {
       return Container(
         width: style.width,
         height: style.height,
         decoration: BoxDecoration(
-          color: _generateColorWithIntials(name!),
+          color: _generateColorWithIntials(firstName, lastName),
           shape: BoxShape.circle,
         ),
         child: Center(
           child: Text(
-            _getInitials(name!),
+            style: const TextStyle(fontSize: 40),
+            _getInitials(firstName, lastName),
           ),
         ),
       );
@@ -67,15 +76,13 @@ class Avatar extends StatelessWidget {
     }
   }
 
-  String _getInitials(String name) {
-    var nameList = name.split(' ');
-    return nameList.first[0] + nameList.last[0];
+  String _getInitials(String? firstName, String? lastName) {
+    return (firstName?[0] ?? '') + (lastName?[0] ?? '');
   }
 
-  Color _generateColorWithIntials(String name) {
-    var nameList = name.split(' ');
-    var uniqueInitialId = nameList.first.toLowerCase().codeUnitAt(0) +
-        nameList.last.toLowerCase().codeUnitAt(0);
+  Color _generateColorWithIntials(String? firstName, String? lastName) {
+    var uniqueInitialId = (firstName?.toLowerCase().codeUnitAt(0) ?? 0) +
+        (lastName?.toLowerCase().codeUnitAt(0) ?? 0);
 
     return Colors.primaries[uniqueInitialId % Colors.primaries.length];
   }

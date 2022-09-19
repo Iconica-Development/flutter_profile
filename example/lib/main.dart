@@ -58,8 +58,8 @@ class MyProfileService extends ProfileService {
   }
 
   @override
-  uploadImage() {
-    return super.uploadImage();
+  uploadImage(context) {
+    return super.uploadImage(context);
   }
 }
 
@@ -73,40 +73,38 @@ class MyProfileData extends ProfileData {
   int justMyString;
 
   @override
-  Map<String, dynamic> mapWidget(Function update) {
+  Map<String, dynamic> mapWidget(Function update, BuildContext context) {
     return {
-      'justMyString': Container(
+      'justMyString': SizedBox(
         height: 100,
         width: 300,
         child: Row(
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: justMyString == 1 ? Colors.green : Colors.blue,
+                backgroundColor: justMyString == 1 ? Colors.green : Colors.blue,
               ),
               onPressed: () {
                 justMyString = 1;
                 update();
-                print(justMyString);
               },
               child: const Text('1'),
             ),
             const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: justMyString == 2 ? Colors.green : Colors.blue,
+                backgroundColor: justMyString == 2 ? Colors.green : Colors.blue,
               ),
               onPressed: () {
                 justMyString = 2;
                 update();
-                print(justMyString);
               },
               child: const Text('2'),
             ),
             const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: justMyString == 3 ? Colors.green : Colors.blue,
+                backgroundColor: justMyString == 3 ? Colors.green : Colors.blue,
               ),
               onPressed: () {
                 justMyString = 3;
@@ -117,7 +115,7 @@ class MyProfileData extends ProfileData {
             const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: justMyString == 4 ? Colors.green : Colors.blue,
+                backgroundColor: justMyString == 4 ? Colors.green : Colors.blue,
               ),
               onPressed: () {
                 justMyString = 4;

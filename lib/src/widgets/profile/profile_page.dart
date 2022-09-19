@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile/profile.dart';
 import 'package:profile/src/widgets/avatar/avatar.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
-
-import 'package:profile/src/widgets/profile/profile_style.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -81,52 +78,50 @@ class ProfileWrapper extends StatefulWidget {
 }
 
 class _ProfileWrapperState extends State<ProfileWrapper> {
-  late List<Widget> profileItems;
   List<Widget> defaultItems = [];
 
   @override
   void initState() {
     super.initState();
-    profileItems = widget.user.profileData!.buildItems(
-      widget.user.profileData!.toMap(),
-      widget.user.profileData!.mapWidget(() {
-        widget.rebuild();
-      }),
-      widget.style.betweenDefaultItemPadding,
-      (key, value) {
-        widget.service.editProfile(widget.user, key, value);
-      },
-      itemBuilder: widget.itemBuilder,
-      itemBuilderOptions: widget.itemBuilderOptions,
-    );
+
     if (widget.itemBuilder == null) {
       ItemBuilder builder = ItemBuilder(
-        options: widget.itemBuilderOptions ?? const ItemBuilderOptions(),
+        options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
       );
-      defaultItems.add(builder.build(widget.user.firstName, null, (v) {
+      defaultItems
+          .add(builder.build('firstName', widget.user.firstName, null, (v) {
         widget.user.firstName = v;
+
+        widget.service.editProfile(widget.user, 'firstName', v);
       }));
       defaultItems.add(
         SizedBox(
           height: widget.style.betweenDefaultItemPadding,
         ),
       );
-      defaultItems.add(builder.build(widget.user.lastName, null, (v) {
+      defaultItems
+          .add(builder.build('lastName', widget.user.lastName, null, (v) {
         widget.user.lastName = v;
+
+        widget.service.editProfile(widget.user, 'lastName', v);
       }));
     } else {
-      defaultItems
-          .add(widget.itemBuilder!.build(widget.user.firstName, null, (v) {
+      defaultItems.add(widget.itemBuilder!
+          .build('firstName', widget.user.firstName, null, (v) {
         widget.user.firstName = v;
+
+        widget.service.editProfile(widget.user, 'firstname', v);
       }));
       defaultItems.add(
         SizedBox(
           height: widget.style.betweenDefaultItemPadding,
         ),
       );
-      defaultItems
-          .add(widget.itemBuilder!.build(widget.user.lastName, null, (v) {
+      defaultItems.add(widget.itemBuilder!
+          .build('lastName', widget.user.lastName, null, (v) {
         widget.user.lastName = v;
+
+        widget.service.editProfile(widget.user, 'lastName', v);
       }));
     }
   }
@@ -134,17 +129,19 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       child: Padding(
         padding: widget.style.pagePadding,
         child: Column(
           children: [
             if (widget.showAvatar)
               InkWell(
-                onTap: () {
-                  widget.service.uploadImage();
+                onTap: () async {
+                  await widget.service.uploadImage(context);
                 },
                 child: Avatar(
-                  name: '${widget.user.firstName} ${widget.user.lastName}',
+                  firstName: widget.user.firstName,
+                  lastName: widget.user.lastName,
                   style: widget.style.avatarStyle,
                   avatar: widget.customAvatar,
                   image: widget.user.image,
@@ -155,11 +152,26 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 height: widget.style.betweenDefaultItemPadding,
               ),
             ...defaultItems,
-            ...profileItems,
+            ...widget.user.profileData!.buildItems(
+              widget.user.profileData!.toMap(),
+              widget.user.profileData!.mapWidget(
+                () {
+                  widget.rebuild();
+                },
+                context,
+              ),
+              widget.style.betweenDefaultItemPadding,
+              (key, value) {
+                widget.service.editProfile(widget.user, key, value);
+              },
+              itemBuilder: widget.itemBuilder,
+              itemBuilderOptions: widget.itemBuilderOptions,
+            ),
             if (widget.showDeleteProfile)
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
               ),
+            const Spacer(),
             if (widget.showDeleteProfile)
               InkWell(
                 onTap: () {
