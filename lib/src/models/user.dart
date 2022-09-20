@@ -3,6 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:profile/profile.dart';
 
+/// User is used to contain all user data. It consists of three standard fields: firstName, lastName and image.
+/// 
+/// For additional data profileData can be used. 
 class User<T extends ProfileData> {
   String? firstName;
   String? lastName;
@@ -35,6 +38,11 @@ class User<T extends ProfileData> {
   }
 }
 
+/// ProfileData is used to store custom/addintional data for a user.
+/// 
+/// The MapWidget method is used to bind a [Widget] to one of the keys. This will override the standard textfield.
+/// 
+/// The Builditems method is used to make the list of field to house the user data.
 abstract class ProfileData {
   const ProfileData();
 

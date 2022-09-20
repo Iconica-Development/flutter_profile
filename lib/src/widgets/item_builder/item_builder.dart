@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
 
+/// ItemBuilder is used to set the standard textfield for each undefined users data item.
+///
+/// Options sets options for the textfield.
 class ItemBuilder {
   ItemBuilder({
     required this.options,
