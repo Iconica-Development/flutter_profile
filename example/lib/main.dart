@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:example/utils/example_profile_service.dart';
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
+import 'package:flutter_profile/flutter_profile.dart';
 
 import 'utils/example_profile_data.dart';
 
@@ -50,6 +50,7 @@ class _ProfileExampleState extends State<ProfileExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ProfilePage(
+        bottomActionText: 'Log out',
         itemBuilderOptions: ItemBuilderOptions(
           inputDecorationField: {
             'firstName': const InputDecoration(

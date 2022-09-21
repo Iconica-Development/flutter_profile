@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:profile/src/models/user.dart';
-import 'package:profile/src/services/profile_service.dart';
-import 'package:profile/src/widgets/avatar/avatar.dart';
-import 'package:profile/src/widgets/item_builder/item_builder.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
-import 'package:profile/src/widgets/item_builder/item_list.dart';
-import 'package:profile/src/widgets/profile/profile_style.dart';
+import 'package:flutter_profile/src/models/user.dart';
+import 'package:flutter_profile/src/services/profile_service.dart';
+import 'package:flutter_profile/src/widgets/avatar/avatar.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_list.dart';
+import 'package:flutter_profile/src/widgets/profile/profile_style.dart';
 
 class ProfileWrapper extends StatefulWidget {
   const ProfileWrapper({

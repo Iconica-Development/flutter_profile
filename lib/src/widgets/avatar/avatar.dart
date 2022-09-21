@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:profile/src/widgets/avatar/avatar_style.dart';
+import 'package:flutter_profile/src/widgets/avatar/avatar_style.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({

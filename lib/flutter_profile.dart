@@ -1,4 +1,4 @@
-library profile;
+library flutter_profile;
 
 export 'src/widgets/profile/profile_page.dart';
 export 'src/widgets/profile/profile_style.dart';

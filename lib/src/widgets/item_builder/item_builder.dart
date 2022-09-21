@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
 /// ItemBuilder is used to set the standard textfield for each undefined users data item.
 ///

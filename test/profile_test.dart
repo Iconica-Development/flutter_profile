@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_profile/flutter_profile.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:profile/profile.dart';
 
 import 'test_classes/test_profile_data.dart';
 import 'test_classes/test_profile_service.dart';

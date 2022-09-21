@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
-import 'package:profile/src/widgets/profile/proifle_wrapper.dart';
+import 'package:flutter_profile/src/models/user.dart';
+import 'package:flutter_profile/src/services/profile_service.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:flutter_profile/src/widgets/profile/profile_style.dart';
+import 'package:flutter_profile/src/widgets/profile/proifle_wrapper.dart';
 
 /// The ProfilePage widget is able to show the data of a user. By default the user is able to change this data. The widget has a couple of parameters listed below:
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profile/src/widgets/item_builder/item_builder.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
 class ItemList extends StatefulWidget {
   const ItemList(

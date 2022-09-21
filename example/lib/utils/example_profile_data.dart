@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
+import 'package:flutter_profile/flutter_profile.dart';
 
 class ExampleProfileData extends ProfileData {
   ExampleProfileData({

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
+import 'package:flutter_profile/src/models/user.dart';
 
 /// ProfileService can be extended and set for the profilePage. The following method can be overriden.
 ///
