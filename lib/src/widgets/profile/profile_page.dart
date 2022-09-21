@@ -14,7 +14,7 @@ import 'package:profile/src/widgets/profile/proifle_wrapper.dart';
 ///
 /// ShowAvatar can be set using a [bool] to determine whether the avatar should be shown and be able to be set by the user. Default set to true.
 ///
-/// ShowDeleteProfile can be set using a [bool] set determine whether te user can delete the profile. Default set to true.
+/// DeleteProfileText sets the text for the inkwell at the bottom of the page. If this is set the null then the deletion of the profile is disabled.
 ///
 /// ItemBuilder is used to determine how the user data is represented.
 ///
@@ -29,7 +29,7 @@ class ProfilePage extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
-    this.showDeleteProfile = true,
+    this.deleteProfileText = 'Delete proifle',
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -47,8 +47,8 @@ class ProfilePage extends StatefulWidget {
   /// Whether to show the users avatar.
   final bool showAvatar;
 
-  /// Whether to give the user the option to delete their own profile.
-  final bool showDeleteProfile;
+  /// Sets the text for the [InkWell] at the bottom of the profile page. If null deleting the profile is disabled.
+  final String? deleteProfileText;
 
   /// Itembuilder is used the build each field in the user.
   final ItemBuilder? itemBuilder;
@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: widget.style,
       customAvatar: widget.customAvatar,
       showAvatar: widget.showAvatar,
-      showDeleteProfile: widget.showDeleteProfile,
+      deleteProfileText: widget.deleteProfileText,
       itemBuilder: widget.itemBuilder,
       itemBuilderOptions: widget.itemBuilderOptions,
       key: UniqueKey(),

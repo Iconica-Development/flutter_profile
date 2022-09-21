@@ -17,7 +17,7 @@ class ProfileWrapper extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
-    this.showDeleteProfile = true,
+    this.deleteProfileText = 'Delete proifle',
   }) : super(key: key);
 
   final User user;
@@ -25,7 +25,7 @@ class ProfileWrapper extends StatefulWidget {
   final ProfileStyle style;
   final Widget? customAvatar;
   final bool showAvatar;
-  final bool showDeleteProfile;
+  final String? deleteProfileText;
   final ItemBuilder? itemBuilder;
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
@@ -124,17 +124,17 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
               itemBuilder: widget.itemBuilder,
               itemBuilderOptions: widget.itemBuilderOptions,
             ),
-            if (widget.showDeleteProfile)
+            if (widget.deleteProfileText != null)
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
               ),
             const Spacer(),
-            if (widget.showDeleteProfile)
+            if (widget.deleteProfileText != null)
               InkWell(
                 onTap: () {
                   widget.service.deleteProfile();
                 },
-                child: const Text('Profiel verwijderen'),
+                child: Text(widget.deleteProfileText!),
               ),
           ],
         ),
