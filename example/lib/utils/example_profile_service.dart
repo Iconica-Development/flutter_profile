@@ -5,20 +5,16 @@ class ExampleProfileService extends ProfileService {
   ExampleProfileService();
 
   @override
-  void deleteProfile() {
-    super.deleteProfile();
-
-    debugPrint('Deleting profile');
+  void pageBottomAction() {
+    debugPrint('Bottom page action');
   }
 
   @override
-  void editProfile<T extends ProfileData>(
-    User<ProfileData> user,
+  void editProfile(
+    User user,
     String key,
     String value,
   ) {
-    super.editProfile(user, key, value);
-
     debugPrint('Editing key: $key with $value');
   }
 

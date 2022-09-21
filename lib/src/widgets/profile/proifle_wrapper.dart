@@ -4,6 +4,7 @@ import 'package:profile/src/services/profile_service.dart';
 import 'package:profile/src/widgets/avatar/avatar.dart';
 import 'package:profile/src/widgets/item_builder/item_builder.dart';
 import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:profile/src/widgets/item_builder/item_list.dart';
 import 'package:profile/src/widgets/profile/profile_style.dart';
 
 class ProfileWrapper extends StatefulWidget {
@@ -17,7 +18,7 @@ class ProfileWrapper extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
-    this.deleteProfileText = 'Delete profile',
+    this.bottomActionText,
   }) : super(key: key);
 
   final User user;
@@ -25,7 +26,7 @@ class ProfileWrapper extends StatefulWidget {
   final ProfileStyle style;
   final Widget? customAvatar;
   final bool showAvatar;
-  final String? deleteProfileText;
+  final String? bottomActionText;
   final ItemBuilder? itemBuilder;
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
@@ -37,6 +38,10 @@ class ProfileWrapper extends StatefulWidget {
 class _ProfileWrapperState extends State<ProfileWrapper> {
   List<Widget> defaultItems = [];
 
+  GlobalKey<FormState> firstNameKey = GlobalKey<FormState>();
+
+  GlobalKey<FormState> lastNameKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -45,41 +50,69 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       ItemBuilder builder = ItemBuilder(
         options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
       );
-      defaultItems
-          .add(builder.build('firstName', widget.user.firstName, null, (v) {
-        widget.user.firstName = v;
+      defaultItems.add(
+        builder.build(
+          'firstName',
+          firstNameKey,
+          widget.user.firstName,
+          null,
+          (v) {
+            widget.user.firstName = v;
 
-        widget.service.editProfile(widget.user, 'firstName', v);
-      }));
+            widget.service.editProfile(widget.user, 'firstName', v);
+          },
+        ),
+      );
       defaultItems.add(
         SizedBox(
           height: widget.style.betweenDefaultItemPadding,
         ),
       );
-      defaultItems
-          .add(builder.build('lastName', widget.user.lastName, null, (v) {
-        widget.user.lastName = v;
+      defaultItems.add(
+        builder.build(
+          'lastName',
+          lastNameKey,
+          widget.user.lastName,
+          null,
+          (v) {
+            widget.user.lastName = v;
 
-        widget.service.editProfile(widget.user, 'lastName', v);
-      }));
+            widget.service.editProfile(widget.user, 'lastName', v);
+          },
+        ),
+      );
     } else {
-      defaultItems.add(widget.itemBuilder!
-          .build('firstName', widget.user.firstName, null, (v) {
-        widget.user.firstName = v;
+      defaultItems.add(
+        widget.itemBuilder!.build(
+          'firstName',
+          firstNameKey,
+          widget.user.firstName,
+          null,
+          (v) {
+            widget.user.firstName = v;
 
-        widget.service.editProfile(widget.user, 'firstname', v);
-      }));
+            widget.service.editProfile(widget.user, 'firstname', v);
+          },
+        ),
+      );
       defaultItems.add(
         SizedBox(
           height: widget.style.betweenDefaultItemPadding,
         ),
       );
-      defaultItems.add(widget.itemBuilder!
-          .build('lastName', widget.user.lastName, null, (v) {
-        widget.user.lastName = v;
+      defaultItems.add(
+        widget.itemBuilder!.build(
+          'lastName',
+          lastNameKey,
+          widget.user.lastName,
+          null,
+          (v) {
+            widget.user.lastName = v;
 
-        widget.service.editProfile(widget.user, 'lastName', v);
-      }));
+            widget.service.editProfile(widget.user, 'lastName', v);
+          },
+        ),
+      );
     }
   }
 
@@ -109,7 +142,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 height: widget.style.betweenDefaultItemPadding,
               ),
             ...defaultItems,
-            ...widget.user.profileData!.buildItems(
+            ItemList(
               widget.user.profileData!.toMap(),
               widget.user.profileData!.mapWidget(
                 () {
@@ -124,19 +157,19 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
               itemBuilder: widget.itemBuilder,
               itemBuilderOptions: widget.itemBuilderOptions,
             ),
-            if (widget.deleteProfileText != null)
+            if (widget.bottomActionText != null)
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
               ),
             const Spacer(),
-            if (widget.deleteProfileText != null)
+            if (widget.bottomActionText != null)
               InkWell(
                 onTap: () {
-                  widget.service.deleteProfile();
+                  widget.service.pageBottomAction();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.deleteProfileText!),
+                  child: Text(widget.bottomActionText!),
                 ),
               ),
           ],

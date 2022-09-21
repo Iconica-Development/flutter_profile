@@ -11,8 +11,8 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(
-      String key, dynamic value, Widget? widget, Function(String) updateItem) {
+  Widget build(String key, GlobalKey<FormState> formKey, dynamic value,
+      Widget? widget, Function(String) updateItem) {
     if (widget == null) {
       var controller = TextEditingController(
         text: '${value ?? ''}',
@@ -25,8 +25,6 @@ class ItemBuilder {
       } else {
         inputDecoration = options.inputDecoration;
       }
-
-      final formKey = GlobalKey<FormState>();
 
       return Form(
         key: formKey,

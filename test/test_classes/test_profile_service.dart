@@ -5,21 +5,15 @@ class TestProfileService extends ProfileService {
   TestProfileService();
 
   @override
-  void deleteProfile() {
-    super.deleteProfile();
-  }
+  void pageBottomAction() {}
 
   @override
-  void editProfile<T extends ProfileData>(
-    User<ProfileData> user,
+  void editProfile(
+    User user,
     String key,
     String value,
-  ) {
-    super.editProfile(user, key, value);
-  }
+  ) {}
 
   @override
-  Future<void> uploadImage(BuildContext context) async {
-    super.uploadImage(context);
-  }
+  Future<void> uploadImage(BuildContext context) async {}
 }

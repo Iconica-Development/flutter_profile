@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:profile/profile.dart';
 
 /// ProfileService can be extended and set for the profilePage. The following method can be overriden.
 ///
-/// DeleteProfile is called when the user want to delete their profile.
+/// BottompageAction is called when the [InkWell] at the bottom of the page is tapped.
 ///
 /// EditProfile is called when a user changes and submits a standard textfields.
 ///
@@ -11,19 +13,9 @@ import 'package:profile/profile.dart';
 abstract class ProfileService {
   const ProfileService();
 
-  deleteProfile() async {}
+  FutureOr<void> pageBottomAction();
 
-  editProfile<T extends ProfileData>(
-      User user, String key, String value) async {
-    if (user.profileData != null) {
-      var map = user.profileData!.toMap();
-      if (map.containsKey(key)) {
-        map[key] = value;
-        var profile = user.profileData!.create();
-        user.profileData = profile.fromMap(map);
-      }
-    }
-  }
+  FutureOr<void> editProfile(User user, String key, String value);
 
-  uploadImage(BuildContext context) async {}
+  FutureOr<void> uploadImage(BuildContext context);
 }
