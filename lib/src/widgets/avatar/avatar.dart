@@ -68,11 +68,7 @@ class Avatar extends StatelessWidget {
         ),
       );
     } else {
-      return SizedBox(
-        width: style.width,
-        height: style.height,
-        // TODO(anyone) child fallback image
-      );
+      return Container();
     }
   }
 

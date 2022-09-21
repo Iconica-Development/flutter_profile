@@ -17,7 +17,7 @@ class ProfileWrapper extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
-    this.deleteProfileText = 'Delete proifle',
+    this.deleteProfileText = 'Delete profile',
   }) : super(key: key);
 
   final User user;
@@ -134,7 +134,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 onTap: () {
                   widget.service.deleteProfile();
                 },
-                child: Text(widget.deleteProfileText!),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.deleteProfileText!),
+                ),
               ),
           ],
         ),

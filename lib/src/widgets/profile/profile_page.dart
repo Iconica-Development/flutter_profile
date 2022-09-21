@@ -29,7 +29,7 @@ class ProfilePage extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
-    this.deleteProfileText = 'Delete proifle',
+    this.deleteProfileText = 'Delete profile',
   }) : super(key: key);
 
   /// User containing all the user data.
