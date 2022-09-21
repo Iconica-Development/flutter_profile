@@ -31,6 +31,7 @@ class ItemBuilder {
       return Form(
         key: formKey,
         child: TextFormField(
+          key: Key(key),
           controller: controller,
           decoration: inputDecoration,
           readOnly: options.readOnly,

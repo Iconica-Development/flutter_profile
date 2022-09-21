@@ -11,9 +11,10 @@ import 'package:profile/profile.dart';
 abstract class ProfileService {
   const ProfileService();
 
-  deleteProfile() {}
+  deleteProfile() async {}
 
-  editProfile<T extends ProfileData>(User user, String key, String value) {
+  editProfile<T extends ProfileData>(
+      User user, String key, String value) async {
     if (user.profileData != null) {
       var map = user.profileData!.toMap();
       if (map.containsKey(key)) {
