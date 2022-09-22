@@ -19,12 +19,9 @@ class ItemBuilder {
       );
 
       late InputDecoration inputDecoration;
-      if (options.inputDecorationField != null &&
-          options.inputDecorationField![key] != null) {
-        inputDecoration = options.inputDecorationField![key]!;
-      } else {
-        inputDecoration = options.inputDecoration;
-      }
+
+      inputDecoration =
+          options.inputDecorationField?[key] ?? options.inputDecoration;
 
       return Form(
         key: formKey,
@@ -39,11 +36,7 @@ class ItemBuilder {
             }
           },
           validator: (value) {
-            if (options.validators != null &&
-                options.validators![key] != null) {
-              return options.validators![key]!(value);
-            }
-            return null;
+            return options.validators?[key]?.call(value);
           },
         ),
       );
