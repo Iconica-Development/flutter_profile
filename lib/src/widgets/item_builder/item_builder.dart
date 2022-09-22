@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
+import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
+/// ItemBuilder is used to set the standard textfield for each undefined users data item.
+///
+/// Options sets options for the textfield.
 class ItemBuilder {
   ItemBuilder({
     required this.options,
@@ -8,19 +11,34 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(dynamic value, Widget? widget, Function(String) updateItem) {
+  Widget build(String key, GlobalKey<FormState> formKey, dynamic value,
+      Widget? widget, Function(String) updateItem) {
     if (widget == null) {
       var controller = TextEditingController(
-        text: '$value',
+        text: '${value ?? ''}',
       );
 
-      return TextField(
-        controller: controller,
-        decoration: options.inputDecoration,
-        readOnly: options.readOnly,
-        onSubmitted: (s) {
-          updateItem(s);
-        },
+      late InputDecoration inputDecoration;
+
+      inputDecoration =
+          options.inputDecorationField?[key] ?? options.inputDecoration;
+
+      return Form(
+        key: formKey,
+        child: TextFormField(
+          key: Key(key),
+          controller: controller,
+          decoration: inputDecoration,
+          readOnly: options.readOnly,
+          onFieldSubmitted: (value) {
+            if (formKey.currentState!.validate()) {
+              updateItem(value);
+            }
+          },
+          validator: (value) {
+            return options.validators?[key]?.call(value);
+          },
+        ),
       );
     }
     return widget;

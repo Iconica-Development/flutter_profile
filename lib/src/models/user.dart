@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
-import 'package:profile/src/widgets/item_builder/item_builder.dart';
-import 'package:profile/src/widgets/item_builder/item_builder_options.dart';
 
-class User<T extends ProfileData> {
+/// User is used to contain all user data. It consists of three standard fields: firstName, lastName and image.
+///
+/// For additional data profileData can be used.
+class User {
   String? firstName;
   String? lastName;
   Uint8List? image;
-  T? profileData;
+  ProfileData? profileData;
 
   User(
     this.firstName,
@@ -37,6 +37,11 @@ class User<T extends ProfileData> {
   }
 }
 
+/// ProfileData is used to store custom/addintional data for a user.
+///
+/// The MapWidget method is used to bind a [Widget] to one of the keys. This will override the standard textfield.
+///
+/// The Builditems method is used to make the list of field to house the user data.
 abstract class ProfileData {
   const ProfileData();
 
@@ -44,46 +49,7 @@ abstract class ProfileData {
 
   Map<String, dynamic> toMap();
 
-  Map<String, dynamic> mapWidget(Function update);
+  Map<String, dynamic> mapWidget(VoidCallback update, BuildContext context);
 
   ProfileData create();
-
-  List<Widget> buildItems(
-    Map<String, dynamic> items,
-    Map<String, dynamic> typeMap,
-    double spacing,
-    Function(String, String) updateProfile, {
-    ItemBuilder? itemBuilder,
-    ItemBuilderOptions? itemBuilderOptions,
-  }) {
-    var widgets = <Widget>[];
-    ItemBuilder builder = ItemBuilder(
-      options: itemBuilderOptions ?? const ItemBuilderOptions(),
-    );
-    for (var item in items.entries) {
-      itemBuilder == null
-          ? widgets.add(
-              builder.build(
-                item.value,
-                typeMap[item.key],
-                (value) {
-                  updateProfile(item.key, value);
-                },
-              ),
-            )
-          : widgets.add(
-              itemBuilder.build(
-                item.value,
-                typeMap[item.key],
-                (value) {
-                  updateProfile(item.key, value);
-                },
-              ),
-            );
-      widgets.add(SizedBox(
-        height: spacing,
-      ));
-    }
-    return widgets;
-  }
 }

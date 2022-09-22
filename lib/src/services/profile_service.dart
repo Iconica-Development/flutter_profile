@@ -1,26 +1,21 @@
-import 'package:profile/profile.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_profile/src/models/user.dart';
+
+/// ProfileService can be extended and set for the profilePage. The following method can be overriden.
+///
+/// BottompageAction is called when the [InkWell] at the bottom of the page is tapped.
+///
+/// EditProfile is called when a user changes and submits a standard textfields.
+///
+/// UploadImage is called when te user presses the avatar.
 abstract class ProfileService {
   const ProfileService();
 
-  deleteProfile() {
-    print("Request to delete profile");
-    // TODO(anyone) project specific
-  }
+  FutureOr<void> pageBottomAction();
 
-  editProfile<T extends ProfileData>(User user, String key, String value) {
-    if (user.profileData != null) {
-      var map = user.profileData!.toMap();
-      if (map.containsKey(key)) {
-        map[key] = value;
-        var profile = user.profileData!.create();
-        user.profileData = profile.fromMap(map);
-      }
-    }
-  }
+  FutureOr<void> editProfile(User user, String key, String value);
 
-  uploadImage() {
-    print('Request to change picture');
-    // TODO(anyone) open image picker and update profile
-  }
+  FutureOr<void> uploadImage(BuildContext context);
 }

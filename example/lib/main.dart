@@ -1,29 +1,44 @@
 import 'dart:typed_data';
 
+import 'package:example/utils/example_profile_service.dart';
 import 'package:flutter/material.dart';
-import 'package:profile/profile.dart';
+import 'package:flutter_profile/flutter_profile.dart';
+
+import 'utils/example_profile_data.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: ProfileExample(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class ProfileExample extends StatefulWidget {
+  const ProfileExample({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileExample> createState() => _ProfileExampleState();
+}
+
+class _ProfileExampleState extends State<ProfileExample> {
   late User _user;
-  MyProfileData profileData = MyProfileData();
+  ProfileData profileData =
+      ExampleProfileData().fromMap({'email': 'example@email.com'});
 
   @override
   void initState() {
     super.initState();
     _user = User(
-      'firstName',
-      'lastName',
+      'Firstname',
+      'Lastname',
       Uint8List.fromList(
         [],
       ),
@@ -33,125 +48,56 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProfilePage(
-        service: MyProfileService(),
+    return Scaffold(
+      body: ProfilePage(
+        bottomActionText: 'Log out',
+        itemBuilderOptions: ItemBuilderOptions(
+          inputDecorationField: {
+            'firstName': const InputDecoration(
+              label: Text('First name'),
+            ),
+            'lastName': const InputDecoration(
+              label: Text('Last name'),
+            ),
+            'email': const InputDecoration(
+              label: Text('E-mail'),
+            ),
+          },
+          validators: {
+            'firstName': (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Field empty';
+              }
+              return null;
+            },
+            'lastName': (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Field empty';
+              }
+              return null;
+            },
+            'email': (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Field empty';
+              }
+              return null;
+            },
+          },
+        ),
         user: _user,
-      ),
-    );
-  }
-}
-
-class MyProfileService extends ProfileService {
-  @override
-  deleteProfile() {
-    return super.deleteProfile();
-  }
-
-  @override
-  editProfile<T extends ProfileData>(
-      User<ProfileData> user, String key, String value) {
-    return super.editProfile(user, key, value);
-  }
-
-  @override
-  uploadImage() {
-    return super.uploadImage();
-  }
-}
-
-class MyProfileData extends ProfileData {
-  MyProfileData({
-    this.justMyNumber = '1',
-    this.justMyString = 2,
-  });
-
-  final String justMyNumber;
-  int justMyString;
-
-  @override
-  Map<String, dynamic> mapWidget(Function update) {
-    return {
-      'justMyString': Container(
-        height: 100,
-        width: 300,
-        child: Row(
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: justMyString == 1 ? Colors.green : Colors.blue,
-              ),
-              onPressed: () {
-                justMyString = 1;
-                update();
-                print(justMyString);
-              },
-              child: const Text('1'),
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: justMyString == 2 ? Colors.green : Colors.blue,
-              ),
-              onPressed: () {
-                justMyString = 2;
-                update();
-                print(justMyString);
-              },
-              child: const Text('2'),
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: justMyString == 3 ? Colors.green : Colors.blue,
-              ),
-              onPressed: () {
-                justMyString = 3;
-                update();
-              },
-              child: const Text('3'),
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: justMyString == 4 ? Colors.green : Colors.blue,
-              ),
-              onPressed: () {
-                justMyString = 4;
-                update();
-              },
-              child: const Text('4'),
-            ),
-          ],
+        service: ExampleProfileService(),
+        style: ProfileStyle(
+          avatarStyle: const AvatarStyle(
+            displayNameStyle: TextStyle(fontSize: 20),
+          ),
+          pagePadding: EdgeInsets.only(
+            top: 50,
+            bottom: 50,
+            left: MediaQuery.of(context).size.width * 0.35,
+            right: MediaQuery.of(context).size.width * 0.35,
+          ),
         ),
       ),
-      'justMyNumber': null,
-    };
-  }
-
-  @override
-  ProfileData fromMap(Map<String, dynamic> data) {
-    return MyProfileData(
-      justMyNumber: data['justMyNumber'],
-      justMyString: int.parse(
-        data['justMyString'].toString(),
-      ),
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    return {
-      'justMyNumber': justMyNumber,
-      'justMyString': justMyString,
-    };
-  }
-
-  @override
-  ProfileData create() {
-    return MyProfileData();
   }
 }

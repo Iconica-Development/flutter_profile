@@ -1,29 +1,38 @@
-[![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart)
+# Flutter Profile
 
-Short description of what your package is, why you created it. What issues it fixes and how it works. Also mention the available platforms
+Flutter Profile is a package you can use to display any user data and let them alter it if desired.
+
+![alt text](example/image/example_profile.png)
+
+## Features
+
+Display every type of user data.
+Display an image/avatar.
+Enable the user to alter his data or withhold the user from doing so.
 
 ## Setup
 
-What setup steps are neccesarry and why>
+To use this package, add `flutter_profile` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/platform-integration/platform-channels).
 
-<details>
-<summary>PLATFORM</summary>
-    
-specific platform steps
+## How To Use
 
-</details>
+See the [Example Code](example/lib/main.dart) for an example on how to use this package.
 
-## How to use
+Underneath are all paramters, of the 'ProfilePage' widget, listed with an explanation.
 
-How can we use the package descibe the most common ways with examples in
-
-```dart
- codeblocks
-```
+| Parameter          | Explaination                                                                                                                                          |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| user               | The class that contains all the user data.                                                                                                            |
+| service            | The service which determines what happens the user wants to update their profile, update their avatar or press the InkWell at the bottom of the page. |
+| style              | With the use of ProfileStyle a couple of style options can be set for the form.                                                                       |
+| customAvatar       | An option to override the standard avatar.                                                                                                            |
+| showAvatar         | The ability to disable/enable the avatar.                                                                                                             |
+| itemBuilder        | The way to override the standard textfield for each standard piece of user data.                                                                      |
+| itemBuilderOptions | The options used by the standard itemBuilder to alter the function and style of the textfields                                                        |
 
 ## Issues
 
-Please file any issues, bugs or feature request as an issue on our [GitHub](REPO URL) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
+Please file any issues, bugs or feature request as an issue on our [GitHub](https://github.com/Iconica-Development/flutter_profile/pulls) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
 
 ## Want to contribute
 
@@ -31,4 +40,4 @@ If you would like to contribute to the plugin (e.g. by improving the documentati
 
 ## Author
 
-This flutter_profile package for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
+This `flutter-image-picker` for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
