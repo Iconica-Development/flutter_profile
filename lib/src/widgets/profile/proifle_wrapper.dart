@@ -113,6 +113,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           },
         ),
       );
+      defaultItems.add(
+        SizedBox(
+          height: widget.style.betweenDefaultItemPadding,
+        ),
+      );
     }
   }
 
