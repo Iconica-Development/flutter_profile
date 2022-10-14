@@ -34,6 +34,7 @@ class ProfilePage extends StatefulWidget {
     this.itemBuilder,
     this.itemBuilderOptions,
     this.bottomActionText,
+    this.prioritizedItems = const [],
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -57,8 +58,11 @@ class ProfilePage extends StatefulWidget {
   /// Itembuilder is used the build each field in the user.
   final ItemBuilder? itemBuilder;
 
-  /// Used to set settings of eacht field in user.
+  /// Used to set settings of each field in user.
   final ItemBuilderOptions? itemBuilderOptions;
+
+  /// Map keys of items that should be shown first before the default items and the rest of the items.
+  final List<String> prioritizedItems;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -79,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
       bottomActionText: widget.bottomActionText,
       itemBuilder: widget.itemBuilder,
       itemBuilderOptions: widget.itemBuilderOptions,
-      key: UniqueKey(),
+      prioritizedItems: widget.prioritizedItems,
     );
   }
 }

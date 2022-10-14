@@ -29,6 +29,8 @@ Underneath are all paramters, of the 'ProfilePage' widget, listed with an explan
 | showAvatar         | The ability to disable/enable the avatar.                                                                                                             |
 | itemBuilder        | The way to override the standard textfield for each standard piece of user data.                                                                      |
 | itemBuilderOptions | The options used by the standard itemBuilder to alter the function and style of the textfields                                                        |
+| prioritizedItems | The items that are displayed at the top of the page. Before all the other items in the list and the default items |
+
 
 ## Issues
 
@@ -36,8 +38,8 @@ Please file any issues, bugs or feature request as an issue on our [GitHub](http
 
 ## Want to contribute
 
-If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](../CONTRIBUTING.md) and send us your [pull request](URL TO PULL REQUEST TAB IN REPO).
+If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](../CONTRIBUTING.md) and send us your [pull request](https://github.com/Iconica-Development/flutter_profile/pulls).
 
 ## Author
 
-This `flutter-image-picker` for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
+This `flutter_profile` for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
