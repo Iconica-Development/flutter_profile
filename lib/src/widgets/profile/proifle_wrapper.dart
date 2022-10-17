@@ -19,6 +19,7 @@ class ProfileWrapper extends StatefulWidget {
     this.itemBuilder,
     this.itemBuilderOptions,
     this.bottomActionText,
+    this.prioritizedItems = const [],
   }) : super(key: key);
 
   final User user;
@@ -30,6 +31,9 @@ class ProfileWrapper extends StatefulWidget {
   final ItemBuilder? itemBuilder;
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
+
+  /// Map keys of items that should be shown first before the default items and the rest of the items.
+  final List<String> prioritizedItems;
 
   @override
   State<ProfileWrapper> createState() => _ProfileWrapperState();
@@ -134,7 +138,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
         padding: widget.style.pagePadding,
         child: Column(
           children: [
-            if (widget.showAvatar)
+            if (widget.showAvatar) ...[
               InkWell(
                 onTap: () async {
                   await widget.service.uploadImage(context);
@@ -147,13 +151,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                   image: widget.user.image,
                 ),
               ),
-            if (widget.showAvatar)
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
               ),
-            ...defaultItems,
+            ],
+            // all the items that have priority above the default items
             ItemList(
-              widget.user.profileData!.toMap(),
+              Map.fromEntries(widget.user.profileData!.toMap().entries.where(
+                  (element) => widget.prioritizedItems.contains(element.key))),
               widget.user.profileData!.mapWidget(
                 () {
                   widget.rebuild();
@@ -167,12 +172,29 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
               itemBuilder: widget.itemBuilder,
               itemBuilderOptions: widget.itemBuilderOptions,
             ),
-            if (widget.bottomActionText != null)
+            ...defaultItems,
+            // remove all the items that have priority from the widget.user.profileData!.toMap()
+            ItemList(
+              Map.fromEntries(widget.user.profileData!.toMap().entries.where(
+                  (element) => !widget.prioritizedItems.contains(element.key))),
+              widget.user.profileData!.mapWidget(
+                () {
+                  widget.rebuild();
+                },
+                context,
+              ),
+              widget.style.betweenDefaultItemPadding,
+              (key, value) {
+                widget.service.editProfile(widget.user, key, value);
+              },
+              itemBuilder: widget.itemBuilder,
+              itemBuilderOptions: widget.itemBuilderOptions,
+            ),
+            if (widget.bottomActionText != null) ...[
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
               ),
-            const Spacer(),
-            if (widget.bottomActionText != null)
+              const Spacer(),
               InkWell(
                 onTap: () {
                   widget.service.pageBottomAction();
@@ -182,6 +204,9 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                   child: Text(widget.bottomActionText!),
                 ),
               ),
+            ] else ...[
+              const Spacer(),
+            ],
           ],
         ),
       ),
