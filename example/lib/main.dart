@@ -37,12 +37,12 @@ class _ProfileExampleState extends State<ProfileExample> {
   void initState() {
     super.initState();
     _user = User(
-      'Firstname',
-      'Lastname',
-      Uint8List.fromList(
+      firstName: 'Firstname',
+      lastName: 'Lastname',
+      image: Uint8List.fromList(
         [],
       ),
-      profileData,
+      profileData: profileData,
     );
   }
 
@@ -53,10 +53,10 @@ class _ProfileExampleState extends State<ProfileExample> {
         bottomActionText: 'Log out',
         itemBuilderOptions: ItemBuilderOptions(
           inputDecorationField: {
-            'firstName': const InputDecoration(
+            'first_name': const InputDecoration(
               label: Text('First name'),
             ),
-            'lastName': const InputDecoration(
+            'last_name': const InputDecoration(
               label: Text('Last name'),
             ),
             'email': const InputDecoration(
@@ -64,13 +64,13 @@ class _ProfileExampleState extends State<ProfileExample> {
             ),
           },
           validators: {
-            'firstName': (String? value) {
+            'first_name': (String? value) {
               if (value == null || value.isEmpty) {
                 return 'Field empty';
               }
               return null;
             },
-            'lastName': (String? value) {
+            'last_name': (String? value) {
               if (value == null || value.isEmpty) {
                 return 'Field empty';
               }

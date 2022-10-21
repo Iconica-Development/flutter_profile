@@ -13,10 +13,10 @@ void main() {
         home: Material(
           child: ProfilePage(
             user: User(
-              'Firstname',
-              'Lastname',
-              Uint8List.fromList([]),
-              TestProfileData(email: 'test@email.com'),
+              firstName: 'Firstname',
+              lastName: 'Lastname',
+              image: Uint8List.fromList([]),
+              profileData: TestProfileData(email: 'test@email.com'),
             ),
             service: TestProfileService(),
           ),
@@ -39,10 +39,7 @@ void main() {
         home: Material(
           child: ProfilePage(
             user: User(
-              null,
-              null,
-              null,
-              TestProfileData(email: null),
+              profileData: TestProfileData(email: null),
             ),
             service: TestProfileService(),
           ),
@@ -58,10 +55,9 @@ void main() {
         home: Material(
           child: ProfilePage(
             user: User(
-              'Firstname',
-              'Lastname',
-              null,
-              TestProfileData(email: 'test@email.com'),
+              firstName: 'Firstname',
+              lastName: 'Lastname',
+              profileData: TestProfileData(email: 'test@email.com'),
             ),
             service: TestProfileService(),
           ),

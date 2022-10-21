@@ -2,39 +2,42 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-/// User is used to contain all user data. It consists of three standard fields: firstName, lastName and image.
+/// User is used to contain all user data. It consists of three standard fields: firstName, lastName and image/imageUrl.
 ///
 /// For additional data profileData can be used.
 class User {
   String? firstName;
   String? lastName;
   Uint8List? image;
+  String? imageUrl;
   ProfileData? profileData;
 
-  User(
+  User({
     this.firstName,
     this.lastName,
     this.image,
+    this.imageUrl,
     this.profileData,
-  );
+  });
 
-  factory User.fromMap(Map<String, dynamic> data) {
-    return User(
-      data['firstName'],
-      data['lastName'],
-      data['image'],
-      data['profileData'],
-    );
-  }
+  String get displayName => '${firstName ?? ''} ${lastName ?? ''}';
+  String get initials => '${firstName?[0] ?? ''}${lastName?[0] ?? ''}';
 
-  Map<String, dynamic> toMap() {
-    return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'image': image,
-      'profileData': profileData,
-    };
-  }
+  factory User.fromMap(Map<String, dynamic> data) => User(
+        firstName: data['first_name'],
+        lastName: data['last_name'],
+        image: data['image'],
+        imageUrl: data['image_url'],
+        profileData: data['profile_data'],
+      );
+
+  Map<String, dynamic> toMap() => {
+        'first_name': firstName,
+        'last_name': lastName,
+        'image': image,
+        'image_url': image,
+        'profile_data': profileData,
+      };
 }
 
 /// ProfileData is used to store custom/addintional data for a user.

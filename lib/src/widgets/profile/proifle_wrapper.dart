@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
 import 'package:flutter_profile/src/services/profile_service.dart';
-import 'package:flutter_profile/src/widgets/avatar/avatar.dart';
+import 'package:flutter_profile/src/widgets/avatar/avatar_wrapper.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_list.dart';
@@ -143,12 +143,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 onTap: () async {
                   await widget.service.uploadImage(context);
                 },
-                child: Avatar(
-                  firstName: widget.user.firstName,
-                  lastName: widget.user.lastName,
+                child: AvaterWrapper(
+                  user: widget.user,
                   style: widget.style.avatarStyle,
                   avatar: widget.customAvatar,
-                  image: widget.user.image,
                 ),
               ),
               SizedBox(
