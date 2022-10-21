@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
 import 'package:flutter_profile/src/services/profile_service.dart';
-import 'package:flutter_profile/src/widgets/avatar/avatar.dart';
+import 'package:flutter_profile/src/widgets/avatar/avatar_wrapper.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_list.dart';
@@ -56,14 +56,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         builder.build(
-          'firstName',
+          'first_name',
           firstNameKey,
           widget.user.firstName,
           null,
           (v) {
             widget.user.firstName = v;
 
-            widget.service.editProfile(widget.user, 'firstName', v);
+            widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
       );
@@ -74,14 +74,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         builder.build(
-          'lastName',
+          'last_name',
           lastNameKey,
           widget.user.lastName,
           null,
           (v) {
             widget.user.lastName = v;
 
-            widget.service.editProfile(widget.user, 'lastName', v);
+            widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
       );
@@ -93,14 +93,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
     } else {
       defaultItems.add(
         widget.itemBuilder!.build(
-          'firstName',
+          'first_name',
           firstNameKey,
           widget.user.firstName,
           null,
           (v) {
             widget.user.firstName = v;
 
-            widget.service.editProfile(widget.user, 'firstname', v);
+            widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
       );
@@ -111,14 +111,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         widget.itemBuilder!.build(
-          'lastName',
+          'last_name',
           lastNameKey,
           widget.user.lastName,
           null,
           (v) {
             widget.user.lastName = v;
 
-            widget.service.editProfile(widget.user, 'lastName', v);
+            widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
       );
@@ -143,12 +143,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 onTap: () async {
                   await widget.service.uploadImage(context);
                 },
-                child: Avatar(
-                  firstName: widget.user.firstName,
-                  lastName: widget.user.lastName,
+                child: AvaterWrapper(
+                  user: widget.user,
                   style: widget.style.avatarStyle,
                   avatar: widget.customAvatar,
-                  image: widget.user.image,
                 ),
               ),
               SizedBox(

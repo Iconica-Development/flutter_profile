@@ -13,12 +13,16 @@ class AvatarStyle {
   const AvatarStyle({
     this.width = 100,
     this.height = 100,
+    this.displayName = true,
     this.initialStyle = const TextStyle(),
+    this.displayNamePadding = const EdgeInsets.only(top: 16),
     this.displayNameStyle = const TextStyle(),
   });
 
   final double width;
   final double height;
   final TextStyle initialStyle;
+  final bool displayName;
+  final EdgeInsets displayNamePadding;
   final TextStyle displayNameStyle;
 }

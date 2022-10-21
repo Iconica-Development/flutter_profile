@@ -12,28 +12,21 @@ class TestProfileData extends ProfileData {
   Map<String, dynamic> mapWidget(
     VoidCallback update,
     BuildContext context,
-  ) {
-    return {
-      'email': null,
-    };
-  }
+  ) =>
+      {
+        'email': null,
+      };
 
   @override
-  ProfileData fromMap(Map<String, dynamic> data) {
-    return TestProfileData(
-      email: data['email'],
-    );
-  }
+  ProfileData fromMap(Map<String, dynamic> data) => TestProfileData(
+        email: data['email'],
+      );
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      'email': email,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        'email': email,
+      };
 
   @override
-  ProfileData create() {
-    return TestProfileData();
-  }
+  ProfileData create() => TestProfileData();
 }
