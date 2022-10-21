@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/flutter_profile.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'test_classes/test_profile_data.dart';
 import 'test_classes/test_profile_service.dart';
 
@@ -15,7 +13,6 @@ void main() {
             user: User(
               firstName: 'Firstname',
               lastName: 'Lastname',
-              image: Uint8List.fromList([]),
               profileData: TestProfileData(email: 'test@email.com'),
             ),
             service: TestProfileService(),

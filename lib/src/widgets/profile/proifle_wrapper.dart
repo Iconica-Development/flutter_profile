@@ -56,14 +56,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         builder.build(
-          'firstName',
+          'first_name',
           firstNameKey,
           widget.user.firstName,
           null,
           (v) {
             widget.user.firstName = v;
 
-            widget.service.editProfile(widget.user, 'firstName', v);
+            widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
       );
@@ -74,14 +74,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         builder.build(
-          'lastName',
+          'last_name',
           lastNameKey,
           widget.user.lastName,
           null,
           (v) {
             widget.user.lastName = v;
 
-            widget.service.editProfile(widget.user, 'lastName', v);
+            widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
       );
@@ -93,14 +93,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
     } else {
       defaultItems.add(
         widget.itemBuilder!.build(
-          'firstName',
+          'first_name',
           firstNameKey,
           widget.user.firstName,
           null,
           (v) {
             widget.user.firstName = v;
 
-            widget.service.editProfile(widget.user, 'firstname', v);
+            widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
       );
@@ -111,14 +111,14 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       );
       defaultItems.add(
         widget.itemBuilder!.build(
-          'lastName',
+          'last_name',
           lastNameKey,
           widget.user.lastName,
           null,
           (v) {
             widget.user.lastName = v;
 
-            widget.service.editProfile(widget.user, 'lastName', v);
+            widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
       );
