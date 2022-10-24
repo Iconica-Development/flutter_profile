@@ -13,6 +13,7 @@ class ProfileStyle {
     this.avatarStyle = const AvatarStyle(),
     this.betweenDefaultItemPadding = 10,
     this.pagePadding = EdgeInsets.zero,
+    this.bottomActionTextStyle,
   });
 
   /// AvatarStyle can be used to set some avatar styling parameters.
@@ -23,4 +24,7 @@ class ProfileStyle {
 
   /// BetweenDefaultItemPadding sets the
   final double betweenDefaultItemPadding;
+
+  /// Bottom action text style
+  final TextStyle? bottomActionTextStyle;
 }

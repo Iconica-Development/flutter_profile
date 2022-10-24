@@ -35,6 +35,8 @@ class ProfilePage extends StatefulWidget {
     this.itemBuilderOptions,
     this.bottomActionText,
     this.prioritizedItems = const [],
+    this.showDefaultItems = true,
+    this.wrapItemsBuilder,
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -61,8 +63,14 @@ class ProfilePage extends StatefulWidget {
   /// Used to set settings of each field in user.
   final ItemBuilderOptions? itemBuilderOptions;
 
+  /// Customize the parent widget for all fields
+  final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
+
   /// Map keys of items that should be shown first before the default items and the rest of the items.
   final List<String> prioritizedItems;
+
+  /// Shows textfields for firstname and lastname if is set to true
+  final bool showDefaultItems;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -84,6 +92,8 @@ class _ProfilePageState extends State<ProfilePage> {
       itemBuilder: widget.itemBuilder,
       itemBuilderOptions: widget.itemBuilderOptions,
       prioritizedItems: widget.prioritizedItems,
+      showDefaultItems: widget.showDefaultItems,
+      wrapItemsBuilder: widget.wrapItemsBuilder,
     );
   }
 }
