@@ -20,6 +20,8 @@ class ProfileWrapper extends StatefulWidget {
     this.itemBuilderOptions,
     this.bottomActionText,
     this.prioritizedItems = const [],
+    this.showDefaultItems = true,
+    this.wrapItemsBuilder,
   }) : super(key: key);
 
   final User user;
@@ -31,6 +33,8 @@ class ProfileWrapper extends StatefulWidget {
   final ItemBuilder? itemBuilder;
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
+  final bool showDefaultItems;
+  final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
 
   /// Map keys of items that should be shown first before the default items and the rest of the items.
   final List<String> prioritizedItems;
@@ -132,6 +136,45 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    var items = Column(
+      children: [
+        ItemList(
+          Map.fromEntries(widget.user.profileData!.toMap().entries.where(
+              (element) => widget.prioritizedItems.contains(element.key))),
+          widget.user.profileData!.mapWidget(
+            () {
+              widget.rebuild();
+            },
+            context,
+          ),
+          widget.style.betweenDefaultItemPadding,
+          (key, value) {
+            widget.service.editProfile(widget.user, key, value);
+          },
+          itemBuilder: widget.itemBuilder,
+          itemBuilderOptions: widget.itemBuilderOptions,
+        ),
+        if (widget.showDefaultItems) ...defaultItems,
+        // remove all the items that have priority from the widget.user.profileData!.toMap()
+        ItemList(
+          Map.fromEntries(widget.user.profileData!.toMap().entries.where(
+              (element) => !widget.prioritizedItems.contains(element.key))),
+          widget.user.profileData!.mapWidget(
+            () {
+              widget.rebuild();
+            },
+            context,
+          ),
+          widget.style.betweenDefaultItemPadding,
+          (key, value) {
+            widget.service.editProfile(widget.user, key, value);
+          },
+          itemBuilder: widget.itemBuilder,
+          itemBuilderOptions: widget.itemBuilderOptions,
+        ),
+      ],
+    );
+    var child = widget.wrapItemsBuilder?.call(context, items) ?? items;
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -154,40 +197,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
               ),
             ],
             // all the items that have priority above the default items
-            ItemList(
-              Map.fromEntries(widget.user.profileData!.toMap().entries.where(
-                  (element) => widget.prioritizedItems.contains(element.key))),
-              widget.user.profileData!.mapWidget(
-                () {
-                  widget.rebuild();
-                },
-                context,
-              ),
-              widget.style.betweenDefaultItemPadding,
-              (key, value) {
-                widget.service.editProfile(widget.user, key, value);
-              },
-              itemBuilder: widget.itemBuilder,
-              itemBuilderOptions: widget.itemBuilderOptions,
-            ),
-            ...defaultItems,
-            // remove all the items that have priority from the widget.user.profileData!.toMap()
-            ItemList(
-              Map.fromEntries(widget.user.profileData!.toMap().entries.where(
-                  (element) => !widget.prioritizedItems.contains(element.key))),
-              widget.user.profileData!.mapWidget(
-                () {
-                  widget.rebuild();
-                },
-                context,
-              ),
-              widget.style.betweenDefaultItemPadding,
-              (key, value) {
-                widget.service.editProfile(widget.user, key, value);
-              },
-              itemBuilder: widget.itemBuilder,
-              itemBuilderOptions: widget.itemBuilderOptions,
-            ),
+            child,
             if (widget.bottomActionText != null) ...[
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
@@ -199,7 +209,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.bottomActionText!),
+                  child: Text(
+                    widget.bottomActionText!,
+                    style: widget.style.bottomActionTextStyle,
+                  ),
                 ),
               ),
             ] else ...[
