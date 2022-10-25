@@ -151,6 +151,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           },
           itemBuilder: widget.itemBuilder,
           itemBuilderOptions: widget.itemBuilderOptions,
+          formKey: formKey,
         ),
         if (widget.showDefaultItems) ...defaultItems,
         // remove all the items that have priority from the widget.user.profileData!.toMap()
@@ -169,6 +170,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           },
           itemBuilder: widget.itemBuilder,
           itemBuilderOptions: widget.itemBuilderOptions,
+          formKey: formKey,
         ),
       ],
     );
