@@ -46,9 +46,7 @@ class ProfileWrapper extends StatefulWidget {
 class _ProfileWrapperState extends State<ProfileWrapper> {
   List<Widget> defaultItems = [];
 
-  GlobalKey<FormState> firstNameKey = GlobalKey<FormState>();
-
-  GlobalKey<FormState> lastNameKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -61,7 +59,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         builder.build(
           'first_name',
-          firstNameKey,
+          formKey,
           widget.user.firstName,
           null,
           (v) {
@@ -79,7 +77,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         builder.build(
           'last_name',
-          lastNameKey,
+          formKey,
           widget.user.lastName,
           null,
           (v) {
@@ -98,7 +96,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         widget.itemBuilder!.build(
           'first_name',
-          firstNameKey,
+          formKey,
           widget.user.firstName,
           null,
           (v) {
@@ -116,7 +114,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         widget.itemBuilder!.build(
           'last_name',
-          lastNameKey,
+          formKey,
           widget.user.lastName,
           null,
           (v) {
@@ -197,7 +195,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
               ),
             ],
             // all the items that have priority above the default items
-            child,
+            Form(key: formKey, child: child),
             if (widget.bottomActionText != null) ...[
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,

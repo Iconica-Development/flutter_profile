@@ -23,22 +23,19 @@ class ItemBuilder {
       inputDecoration =
           options.inputDecorationField?[key] ?? options.inputDecoration;
 
-      return Form(
-        key: formKey,
-        child: TextFormField(
-          key: Key(key),
-          controller: controller,
-          decoration: inputDecoration,
-          readOnly: options.readOnly,
-          onFieldSubmitted: (value) {
-            if (formKey.currentState!.validate()) {
-              updateItem(value);
-            }
-          },
-          validator: (value) {
-            return options.validators?[key]?.call(value);
-          },
-        ),
+      return TextFormField(
+        key: Key(key),
+        controller: controller,
+        decoration: inputDecoration,
+        readOnly: options.readOnly,
+        onFieldSubmitted: (value) {
+          if (formKey.currentState!.validate()) {
+            updateItem(value);
+          }
+        },
+        validator: (value) {
+          return options.validators?[key]?.call(value);
+        },
       );
     }
     return widget;
