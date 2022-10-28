@@ -58,9 +58,16 @@ class Avatar extends StatelessWidget {
   }
 
   Color _generateColorWithIntials(String? firstName, String? lastName) {
-    var uniqueInitialId = (firstName?.toLowerCase().codeUnitAt(0) ?? 0) +
-        (lastName?.toLowerCase().codeUnitAt(0) ?? 0);
+    var idFirstName = 0;
+    var idLastName = 0;
+    if (firstName?.isNotEmpty ?? false) {
+      idFirstName = firstName!.toLowerCase().codeUnitAt(0);
+    }
+    if (lastName?.isNotEmpty ?? false) {
+      idLastName = lastName!.toLowerCase().codeUnitAt(0);
+    }
 
-    return Colors.primaries[uniqueInitialId % Colors.primaries.length];
+    return Colors
+        .primaries[(idFirstName + idLastName) % Colors.primaries.length];
   }
 }
