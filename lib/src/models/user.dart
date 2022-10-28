@@ -21,7 +21,8 @@ class User {
   });
 
   String get displayName => '${firstName ?? ''} ${lastName ?? ''}';
-  String get initials => '${firstName?[0] ?? ''}${lastName?[0] ?? ''}';
+  String get initials =>
+      '${(firstName?.isNotEmpty ?? false) ? firstName![0] : ''}${(lastName?.isNotEmpty ?? false) ? lastName![0] : ''}';
 
   factory User.fromMap(Map<String, dynamic> data) => User(
         firstName: data['first_name'],
