@@ -38,7 +38,6 @@ class _ItemListState extends State<ItemList> {
           ? widgets.add(
               builder.build(
                 item.key,
-                widget.formKey,
                 item.value,
                 widget.typeMap[item.key],
                 (value) {
@@ -49,7 +48,6 @@ class _ItemListState extends State<ItemList> {
           : widgets.add(
               widget.itemBuilder!.build(
                 item.key,
-                widget.formKey,
                 item.value,
                 widget.typeMap[item.key],
                 (value) {

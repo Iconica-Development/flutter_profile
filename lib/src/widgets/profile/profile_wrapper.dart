@@ -59,7 +59,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         builder.build(
           'first_name',
-          formKey,
           widget.user.firstName,
           null,
           (v) {
@@ -77,7 +76,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         builder.build(
           'last_name',
-          formKey,
           widget.user.lastName,
           null,
           (v) {
@@ -96,7 +94,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         widget.itemBuilder!.build(
           'first_name',
-          formKey,
           widget.user.firstName,
           null,
           (v) {
@@ -114,7 +111,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
       defaultItems.add(
         widget.itemBuilder!.build(
           'last_name',
-          formKey,
           widget.user.lastName,
           null,
           (v) {

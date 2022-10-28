@@ -11,8 +11,8 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(String key, GlobalKey<FormState> formKey, dynamic value,
-      Widget? widget, Function(String) updateItem) {
+  Widget build(
+      String key, dynamic value, Widget? widget, Function(String) updateItem) {
     if (widget == null) {
       var controller = TextEditingController(
         text: '${value ?? ''}',
@@ -22,14 +22,14 @@ class ItemBuilder {
 
       inputDecoration =
           options.inputDecorationField?[key] ?? options.inputDecoration;
-
+      var formFieldKey = GlobalKey<FormFieldState>();
       return TextFormField(
-        key: Key(key),
+        key: formFieldKey,
         controller: controller,
         decoration: inputDecoration,
         readOnly: options.readOnly,
         onFieldSubmitted: (value) {
-          if (formKey.currentState!.validate()) {
+          if (formFieldKey.currentState!.validate()) {
             updateItem(value);
           }
         },
