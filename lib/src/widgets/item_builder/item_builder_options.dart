@@ -13,10 +13,12 @@ class ItemBuilderOptions {
     this.inputDecorationField,
     this.readOnly = false,
     this.validators,
+    this.keyboardType,
   });
 
   final InputDecoration inputDecoration;
   final Map<String, InputDecoration>? inputDecorationField;
   final bool readOnly;
   final Map<String, String? Function(String?)>? validators;
+  final Map<String, TextInputType>? keyboardType;
 }
