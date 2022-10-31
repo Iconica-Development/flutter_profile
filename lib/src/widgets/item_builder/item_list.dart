@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Iconica
+//
+// SPDX-License-Identifier: BSD-3-Clause
+
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';

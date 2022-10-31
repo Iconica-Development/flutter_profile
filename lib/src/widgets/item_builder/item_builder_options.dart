@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Iconica
+//
+// SPDX-License-Identifier: BSD-3-Clause
+
 import 'package:flutter/material.dart';
 
 /// ItemBuilderOptions is a class to store all settings for a field in the profile page.
