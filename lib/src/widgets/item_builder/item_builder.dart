@@ -15,8 +15,8 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(
-      String key, dynamic value, Widget? widget, Function(String) updateItem) {
+  Widget build(String key, dynamic value, Widget? widget,
+      Function(String) updateItem, Function(String) saveItem) {
     if (widget == null) {
       var controller = TextEditingController(
         text: '${value ?? ''}',
@@ -36,6 +36,11 @@ class ItemBuilder {
         onFieldSubmitted: (value) {
           if (formFieldKey.currentState!.validate()) {
             updateItem(value);
+          }
+        },
+        onSaved: (newValue) {
+          if (newValue != null && newValue != value) {
+            saveItem(newValue);
           }
         },
         validator: (value) {
