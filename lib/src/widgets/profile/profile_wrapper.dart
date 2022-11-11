@@ -13,7 +13,6 @@ import 'package:flutter_profile/src/widgets/profile/profile_style.dart';
 
 class ProfileWrapper extends StatefulWidget {
   const ProfileWrapper({
-    Key? key,
     required this.user,
     required this.service,
     required this.rebuild,
@@ -26,7 +25,8 @@ class ProfileWrapper extends StatefulWidget {
     this.prioritizedItems = const [],
     this.showDefaultItems = true,
     this.wrapItemsBuilder,
-  }) : super(key: key);
+    super.key,
+  });
 
   final User user;
   final ProfileService service;
@@ -51,11 +51,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   List<Widget> defaultItems = [];
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  Map<String, dynamic> formValues = {};
 
   @override
   void initState() {
     super.initState();
-
     if (widget.itemBuilder == null) {
       ItemBuilder builder = ItemBuilder(
         options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
@@ -65,9 +65,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           'first_name',
           widget.user.firstName,
           null,
+          (value) {
+            submitAllChangedFields();
+          },
           (v) {
             widget.user.firstName = v;
-
             widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
@@ -82,9 +84,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           'last_name',
           widget.user.lastName,
           null,
+          (value) {
+            submitAllChangedFields();
+          },
           (v) {
             widget.user.lastName = v;
-
             widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
@@ -100,9 +104,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           'first_name',
           widget.user.firstName,
           null,
+          (value) {
+            submitAllChangedFields();
+          },
           (v) {
             widget.user.firstName = v;
-
             widget.service.editProfile(widget.user, 'first_name', v);
           },
         ),
@@ -117,9 +123,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           'last_name',
           widget.user.lastName,
           null,
+          (value) {
+            submitAllChangedFields();
+          },
           (v) {
             widget.user.lastName = v;
-
             widget.service.editProfile(widget.user, 'last_name', v);
           },
         ),
@@ -149,6 +157,9 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           (key, value) {
             widget.service.editProfile(widget.user, key, value);
           },
+          () {
+            submitAllChangedFields();
+          },
           itemBuilder: widget.itemBuilder,
           itemBuilderOptions: widget.itemBuilderOptions,
           formKey: formKey,
@@ -167,6 +178,9 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           widget.style.betweenDefaultItemPadding,
           (key, value) {
             widget.service.editProfile(widget.user, key, value);
+          },
+          () {
+            submitAllChangedFields();
           },
           itemBuilder: widget.itemBuilder,
           itemBuilderOptions: widget.itemBuilderOptions,
@@ -222,5 +236,12 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
         ),
       ),
     );
+  }
+
+  /// This calls onSaved on all the fiels which check if they have a new value
+  void submitAllChangedFields() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+    }
   }
 }

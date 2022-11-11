@@ -11,7 +11,8 @@ class ItemList extends StatefulWidget {
     this.items,
     this.typeMap,
     this.spacing,
-    this.updateProfile, {
+    this.updateProfile,
+    this.saveProfile, {
     required this.formKey,
     this.itemBuilder,
     this.itemBuilderOptions,
@@ -22,6 +23,7 @@ class ItemList extends StatefulWidget {
   final Map<String, dynamic> typeMap;
   final double spacing;
   final Function(String, String) updateProfile;
+  final Function() saveProfile;
   final ItemBuilder? itemBuilder;
   final ItemBuilderOptions? itemBuilderOptions;
   final GlobalKey<FormState> formKey;
@@ -45,6 +47,9 @@ class _ItemListState extends State<ItemList> {
                 item.value,
                 widget.typeMap[item.key],
                 (value) {
+                  widget.saveProfile();
+                },
+                (value) {
                   widget.updateProfile(item.key, value);
                 },
               ),
@@ -54,6 +59,9 @@ class _ItemListState extends State<ItemList> {
                 item.key,
                 item.value,
                 widget.typeMap[item.key],
+                (value) {
+                  widget.saveProfile();
+                },
                 (value) {
                   widget.updateProfile(item.key, value);
                 },

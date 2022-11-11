@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Add support for image URL (instead of in-memory image using image parameter from User model)
+
+## 0.0.7
+
+* Submit all edited fields on submit of one field
