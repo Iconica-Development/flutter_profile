@@ -33,12 +33,16 @@ class ItemList extends StatefulWidget {
 }
 
 class _ItemListState extends State<ItemList> {
+  var widgets = <Widget>[];
+
+  late ItemBuilder builder = ItemBuilder(
+    options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
+  );
+
   @override
-  Widget build(BuildContext context) {
-    var widgets = <Widget>[];
-    ItemBuilder builder = ItemBuilder(
-      options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
-    );
+  void initState() {
+    super.initState();
+
     for (var item in widget.items.entries) {
       widget.itemBuilder == null
           ? widgets.add(
@@ -71,7 +75,10 @@ class _ItemListState extends State<ItemList> {
         height: widget.spacing,
       ));
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: widgets,
     );
