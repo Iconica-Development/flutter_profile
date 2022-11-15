@@ -41,7 +41,7 @@ class User {
         'last_name': lastName,
         'image': image,
         'image_url': image,
-        'profile_data': profileData,
+        'profile_data': profileData?.toMap(),
       };
 }
 

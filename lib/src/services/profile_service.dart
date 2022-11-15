@@ -19,7 +19,7 @@ abstract class ProfileService {
 
   FutureOr<void> pageBottomAction();
 
-  FutureOr<void> editProfile(User user, String key, String value);
+  FutureOr<void> editProfile(User user, String key, String? value);
 
   FutureOr<void> uploadImage(BuildContext context);
 }

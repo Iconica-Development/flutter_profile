@@ -13,3 +13,11 @@
 ## 0.0.7
 
 * Submit all edited fields on submit of one field
+
+## 0.0.10
+
+* Fixed bug where keyboard would close on selecting custom input fields.
+
+## 0.0.11
+
+* Fixed bug where some field wouldn't update when submitted.

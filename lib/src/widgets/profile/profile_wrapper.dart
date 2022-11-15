@@ -52,6 +52,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Map<String, dynamic> formValues = {};
+  late final Widget child;
 
   @override
   void initState() {
@@ -69,8 +70,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             submitAllChangedFields();
           },
           (v) {
-            widget.user.firstName = v;
-            widget.service.editProfile(widget.user, 'first_name', v);
+            if (widget.user.firstName != v) {
+              widget.user.firstName = v;
+              widget.service.editProfile(widget.user, 'first_name', v);
+            }
           },
         ),
       );
@@ -88,8 +91,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             submitAllChangedFields();
           },
           (v) {
-            widget.user.lastName = v;
-            widget.service.editProfile(widget.user, 'last_name', v);
+            if (widget.user.lastName != v) {
+              widget.user.lastName = v;
+              widget.service.editProfile(widget.user, 'last_name', v);
+            }
           },
         ),
       );
@@ -108,8 +113,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             submitAllChangedFields();
           },
           (v) {
-            widget.user.firstName = v;
-            widget.service.editProfile(widget.user, 'first_name', v);
+            if (widget.user.firstName != v) {
+              widget.user.firstName = v;
+              widget.service.editProfile(widget.user, 'first_name', v);
+            }
           },
         ),
       );
@@ -127,8 +134,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             submitAllChangedFields();
           },
           (v) {
-            widget.user.lastName = v;
-            widget.service.editProfile(widget.user, 'last_name', v);
+            if (widget.user.lastName != v) {
+              widget.user.lastName = v;
+              widget.service.editProfile(widget.user, 'last_name', v);
+            }
           },
         ),
       );
@@ -138,10 +147,6 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
         ),
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     var items = Column(
       children: [
         ItemList(
@@ -155,7 +160,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           ),
           widget.style.betweenDefaultItemPadding,
           (key, value) {
-            widget.service.editProfile(widget.user, key, value);
+            if (widget.user.toMap()['profile_data'][key] == null) {
+              widget.service.editProfile(widget.user, key, value);
+            } else if (widget.user.toMap()['profile_data'][key] != value) {
+              widget.service.editProfile(widget.user, key, value);
+            }
           },
           () {
             submitAllChangedFields();
@@ -177,7 +186,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           ),
           widget.style.betweenDefaultItemPadding,
           (key, value) {
-            widget.service.editProfile(widget.user, key, value);
+            if (widget.user.toMap()['profile_data'][key] == null) {
+              widget.service.editProfile(widget.user, key, value);
+            } else if (widget.user.toMap()['profile_data'][key] != value) {
+              widget.service.editProfile(widget.user, key, value);
+            }
           },
           () {
             submitAllChangedFields();
@@ -188,7 +201,12 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
         ),
       ],
     );
-    var child = widget.wrapItemsBuilder?.call(context, items) ?? items;
+
+    child = widget.wrapItemsBuilder?.call(context, items) ?? items;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: Padding(
