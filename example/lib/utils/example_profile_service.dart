@@ -17,7 +17,7 @@ class ExampleProfileService extends ProfileService {
   void editProfile(
     User user,
     String key,
-    String value,
+    String? value,
   ) {
     debugPrint('Editing key: $key with $value');
   }

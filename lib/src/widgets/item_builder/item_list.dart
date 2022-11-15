@@ -22,7 +22,7 @@ class ItemList extends StatefulWidget {
   final Map<String, dynamic> items;
   final Map<String, dynamic> typeMap;
   final double spacing;
-  final Function(String, String) updateProfile;
+  final Function(String, String?) updateProfile;
   final Function() saveProfile;
   final ItemBuilder? itemBuilder;
   final ItemBuilderOptions? itemBuilderOptions;

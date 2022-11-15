@@ -15,7 +15,7 @@ class TestProfileService extends ProfileService {
   void editProfile(
     User user,
     String key,
-    String value,
+    String? value,
   ) {}
 
   @override
