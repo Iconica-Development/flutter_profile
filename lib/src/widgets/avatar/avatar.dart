@@ -2,63 +2,60 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
-import 'package:flutter_profile/src/widgets/avatar/avatar_style.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({
     Key? key,
-    required this.user,
-    this.style = const AvatarStyle(),
+    this.user,
+    this.size = 100,
   }) : super(key: key);
 
-  final User user;
-  final AvatarStyle style;
+  final User? user;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    var imageProvider = _getImageProvider();
+    var imageProvider = _getImageProvider(user!);
+    var hasImage = imageProvider != null;
+    var hasNames =
+        user != null && (user!.firstName != null || user!.lastName != null);
 
-    if (imageProvider != null) {
-      return Container(
-        width: style.width,
-        height: style.height,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: imageProvider,
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    } else if (user.firstName != null || user.lastName != null) {
-      return Container(
-        width: style.width,
-        height: style.height,
-        decoration: BoxDecoration(
-          color: _generateColorWithIntials(user.firstName, user.lastName),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            style: TextStyle(
-              fontSize: style.width * 0.4,
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: !hasImage && hasNames
+            ? _generateColorWithIntials(user!.firstName, user!.lastName)
+            : null,
+        image: hasImage
+            ? DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              )
+            : null,
+      ),
+      child: hasImage || !hasNames
+          ? null
+          : Center(
+              child: Text(
+                style: TextStyle(
+                  fontSize: size * 0.4,
+                ),
+                user!.initials,
+              ),
             ),
-            user.initials,
-          ),
-        ),
-      );
-    }
-
-    return Container();
+    );
   }
 
-  ImageProvider? _getImageProvider() {
-    if (user.image != null) {
-      return MemoryImage(user.image!);
-    } else if (user.imageUrl != null) {
-      return NetworkImage(user.imageUrl!);
+  ImageProvider? _getImageProvider(User? user) {
+    if (user?.image != null) {
+      return MemoryImage(user!.image!);
+    } else if (user?.imageUrl != null) {
+      return CachedNetworkImageProvider(user!.imageUrl!);
     }
     return null;
   }

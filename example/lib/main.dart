@@ -91,9 +91,7 @@ class _ProfileExampleState extends State<ProfileExample> {
         user: _user,
         service: ExampleProfileService(),
         style: ProfileStyle(
-          avatarStyle: const AvatarStyle(
-            displayNameStyle: TextStyle(fontSize: 20),
-          ),
+          avatarTextStyle: const TextStyle(fontSize: 20),
           pagePadding: EdgeInsets.only(
             top: 50,
             bottom: 50,
