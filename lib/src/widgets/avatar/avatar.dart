@@ -42,7 +42,9 @@ class Avatar extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            style: const TextStyle(fontSize: 40),
+            style: TextStyle(
+              fontSize: style.width * 0.4,
+            ),
             user.initials,
           ),
         ),
