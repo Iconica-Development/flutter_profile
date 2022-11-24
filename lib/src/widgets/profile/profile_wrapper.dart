@@ -218,10 +218,10 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 onTap: () async {
                   await widget.service.uploadImage(context);
                 },
-                child: AvaterWrapper(
+                child: AvatarWrapper(
                   user: widget.user,
-                  style: widget.style.avatarStyle,
-                  avatar: widget.customAvatar,
+                  textStyle: widget.style.avatarTextStyle,
+                  customAvatar: widget.customAvatar,
                 ),
               ),
               SizedBox(

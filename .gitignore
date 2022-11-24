@@ -35,3 +35,5 @@ example/linux/
 example/macos/
 example/windows/
 example/web/
+.flutter-plugins
+.flutter-plugins-dependencies

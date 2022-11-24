@@ -5,44 +5,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
 import 'package:flutter_profile/src/widgets/avatar/avatar.dart';
-import 'package:flutter_profile/src/widgets/avatar/avatar_style.dart';
 
-class AvaterWrapper extends StatelessWidget {
-  const AvaterWrapper({
+class AvatarWrapper extends StatelessWidget {
+  const AvatarWrapper({
     Key? key,
     required this.user,
-    this.avatar,
-    this.style = const AvatarStyle(),
+    this.showName = false,
+    this.padding = const EdgeInsets.only(top: 16),
+    this.size = 100,
+    this.textStyle,
+    this.customAvatar,
   }) : super(key: key);
 
   final User user;
-  final Widget? avatar;
-  final AvatarStyle style;
+  final Widget? customAvatar;
+  final bool showName;
+  final EdgeInsets padding;
+  final TextStyle? textStyle;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    var avatar = this.avatar ??
+    var avatar = customAvatar ??
         Avatar(
           user: user,
-          style: style,
+          size: size,
         );
 
-    if (!style.displayName) {
-      return avatar;
-    }
-
-    return Column(
-      children: [
-        avatar,
-        if (user.firstName != null || user.firstName != null)
-          Padding(
-            padding: style.displayNamePadding,
-            child: Text(
-              user.displayName,
-              style: style.displayNameStyle,
-            ),
+    return showName
+        ? Column(
+            children: [
+              avatar,
+              Padding(
+                padding: padding,
+                child: Flexible(
+                  child: Text(
+                    style: textStyle,
+                    user.displayName,
+                  ),
+                ),
+              ),
+            ],
           )
-      ],
-    );
+        : avatar;
   }
 }
