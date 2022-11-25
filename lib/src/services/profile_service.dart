@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
 
@@ -21,5 +20,8 @@ abstract class ProfileService {
 
   FutureOr<void> editProfile(User user, String key, String? value);
 
-  FutureOr<void> uploadImage(BuildContext context);
+  FutureOr<void> uploadImage(
+    BuildContext context, {
+    required Function(bool isUploading) onUploadStateChanged,
+  });
 }

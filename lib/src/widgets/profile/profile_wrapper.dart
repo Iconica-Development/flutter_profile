@@ -49,9 +49,9 @@ class ProfileWrapper extends StatefulWidget {
 
 class _ProfileWrapperState extends State<ProfileWrapper> {
   List<Widget> defaultItems = [];
-
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Map<String, dynamic> formValues = {};
+  bool _isUploadingImage = false;
   late final Widget child;
 
   @override
@@ -215,13 +215,28 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
           children: [
             if (widget.showAvatar) ...[
               InkWell(
-                onTap: () async {
-                  await widget.service.uploadImage(context);
-                },
+                onTap: () => widget.service.uploadImage(
+                  context,
+                  onUploadStateChanged: (isUploading) => setState(
+                    () {
+                      _isUploadingImage = isUploading;
+                    },
+                  ),
+                ),
                 child: AvatarWrapper(
                   user: widget.user,
                   textStyle: widget.style.avatarTextStyle,
-                  customAvatar: widget.customAvatar,
+                  customAvatar: _isUploadingImage
+                      ? Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const CircularProgressIndicator(),
+                        )
+                      : widget.customAvatar,
                 ),
               ),
               SizedBox(

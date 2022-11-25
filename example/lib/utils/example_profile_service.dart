@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/flutter_profile.dart';
 
@@ -23,7 +24,8 @@ class ExampleProfileService extends ProfileService {
   }
 
   @override
-  Future<void> uploadImage(BuildContext context) async {
+  FutureOr<void> uploadImage(BuildContext context,
+      {required Function(bool isUploading) onUploadStateChanged}) {
     debugPrint('Updating avatar');
   }
 }
