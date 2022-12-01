@@ -21,3 +21,7 @@
 ## 0.0.11
 
 * Fixed bug where some field wouldn't update when submitted.
+
+## 1.0.1
+
+* Added a default wrap instead of column

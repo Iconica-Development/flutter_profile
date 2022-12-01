@@ -13,7 +13,8 @@ import 'package:flutter/material.dart';
 /// Validator can be used to set a validator for the standard textfield.
 class ItemBuilderOptions {
   ItemBuilderOptions({
-    this.inputDecoration = const InputDecoration(),
+    this.inputDecoration = const InputDecoration(
+        constraints: BoxConstraints(maxWidth: 200, maxHeight: 40)),
     this.inputDecorationField,
     this.readOnly = false,
     this.validators,

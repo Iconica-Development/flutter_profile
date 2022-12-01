@@ -41,6 +41,7 @@ class ProfilePage extends StatefulWidget {
     this.prioritizedItems = const [],
     this.showDefaultItems = true,
     this.wrapItemsBuilder,
+    this.wrapViewOptions,
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -76,6 +77,9 @@ class ProfilePage extends StatefulWidget {
   /// Shows textfields for firstname and lastname if is set to true
   final bool showDefaultItems;
 
+  /// Edit the direction and spacing between every item
+  final WrapViewOptions? wrapViewOptions;
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -98,6 +102,16 @@ class _ProfilePageState extends State<ProfilePage> {
       prioritizedItems: widget.prioritizedItems,
       showDefaultItems: widget.showDefaultItems,
       wrapItemsBuilder: widget.wrapItemsBuilder,
+      wrapViewOptions: widget.wrapViewOptions,
     );
   }
+}
+
+class WrapViewOptions {
+  WrapViewOptions(
+      {this.direction, this.spacing, this.runSpacing, this.clipBehavior});
+  Axis? direction;
+  double? spacing;
+  double? runSpacing;
+  Clip? clipBehavior;
 }
