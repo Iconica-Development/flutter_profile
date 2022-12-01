@@ -6,6 +6,7 @@ import 'dart:typed_data';
 
 import 'package:example/utils/example_profile_service.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_profile/flutter_profile.dart';
 
 import 'utils/example_profile_data.dart';
@@ -53,53 +54,98 @@ class _ProfileExampleState extends State<ProfileExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ProfilePage(
-        bottomActionText: 'Log out',
-        itemBuilderOptions: ItemBuilderOptions(
-          inputDecorationField: {
-            'first_name': const InputDecoration(
-              label: Text('First name'),
-            ),
-            'last_name': const InputDecoration(
-              label: Text('Last name'),
-            ),
-            'email': const InputDecoration(
-              label: Text('E-mail'),
-            ),
-          },
-          validators: {
-            'first_name': (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Field empty';
-              }
-              return null;
+      body: Center(
+        child: ProfilePage(
+          wrapViewOptions:
+              WrapViewOptions(direction: Axis.vertical, spacing: 16),
+          bottomActionText: 'Log out',
+          itemBuilderOptions: ItemBuilderOptions(
+            inputDecorationField: {
+              'first_name': const InputDecoration(
+                constraints: BoxConstraints(maxHeight: 70, maxWidth: 200),
+                label: Text('First name'),
+              ),
+              'last_name': const InputDecoration(
+                constraints: BoxConstraints(maxHeight: 70, maxWidth: 150),
+                label: Text('First name'),
+              ),
             },
-            'last_name': (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Field empty';
-              }
-              return null;
+            validators: {
+              'first_name': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
+              'last_name': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
+              'email': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
             },
-            'email': (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Field empty';
-              }
-              return null;
-            },
-          },
-        ),
-        user: _user,
-        service: ExampleProfileService(),
-        style: ProfileStyle(
-          avatarTextStyle: const TextStyle(fontSize: 20),
-          pagePadding: EdgeInsets.only(
-            top: 50,
-            bottom: 50,
-            left: MediaQuery.of(context).size.width * 0.35,
-            right: MediaQuery.of(context).size.width * 0.35,
+          ),
+          user: _user,
+          service: ExampleProfileService(),
+          style: ProfileStyle(
+            avatarTextStyle: const TextStyle(fontSize: 20),
+            pagePadding: EdgeInsets.only(
+              top: 50,
+              bottom: 50,
+              left: MediaQuery.of(context).size.width * 0.1,
+              right: MediaQuery.of(context).size.width * 0.1,
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class CustomItemBuilderExample extends ItemBuilder {
+  CustomItemBuilderExample({
+    required super.options,
+  });
+
+  @override
+  Widget build(String key, dynamic value, Widget? widget,
+      Function(String) updateItem, Function(String?) saveItem) {
+    if (widget == null) {
+      var controller = TextEditingController(
+        text: '${value ?? ''}',
+      );
+
+      late InputDecoration inputDecoration;
+
+      inputDecoration =
+          options.inputDecorationField?[key] ?? options.inputDecoration;
+      var formFieldKey = GlobalKey<FormFieldState>();
+      return SizedBox(
+        width: 300,
+        child: TextFormField(
+          keyboardType: options.keyboardType?[key],
+          key: formFieldKey,
+          controller: controller,
+          decoration: inputDecoration,
+          readOnly: options.readOnly,
+          onFieldSubmitted: (value) {
+            updateItem(value);
+          },
+          onSaved: (newValue) {
+            saveItem(newValue);
+          },
+          validator: (value) {
+            return options.validators?[key]?.call(value);
+          },
+        ),
+      );
+    }
+    return widget;
   }
 }

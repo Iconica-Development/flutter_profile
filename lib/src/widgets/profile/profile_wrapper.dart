@@ -9,6 +9,7 @@ import 'package:flutter_profile/src/widgets/avatar/avatar_wrapper.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_list.dart';
+import 'package:flutter_profile/src/widgets/profile/profile_page.dart';
 import 'package:flutter_profile/src/widgets/profile/profile_style.dart';
 
 class ProfileWrapper extends StatefulWidget {
@@ -21,6 +22,7 @@ class ProfileWrapper extends StatefulWidget {
     this.showAvatar = true,
     this.itemBuilder,
     this.itemBuilderOptions,
+    this.wrapViewOptions,
     this.bottomActionText,
     this.prioritizedItems = const [],
     this.showDefaultItems = true,
@@ -35,6 +37,7 @@ class ProfileWrapper extends StatefulWidget {
   final bool showAvatar;
   final String? bottomActionText;
   final ItemBuilder? itemBuilder;
+  final WrapViewOptions? wrapViewOptions;
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
   final bool showDefaultItems;
@@ -147,7 +150,11 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
         ),
       );
     }
-    var items = Column(
+    var items = Wrap(
+      direction: widget.wrapViewOptions?.direction ?? Axis.vertical,
+      spacing: widget.wrapViewOptions?.spacing ?? 0,
+      runSpacing: widget.wrapViewOptions?.runSpacing ?? 0,
+      clipBehavior: widget.wrapViewOptions?.clipBehavior ?? Clip.none,
       children: [
         ItemList(
           Map.fromEntries(widget.user.profileData!.toMap().entries.where(
