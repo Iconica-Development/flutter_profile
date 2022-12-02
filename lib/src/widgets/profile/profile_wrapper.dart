@@ -26,7 +26,10 @@ class ProfileWrapper extends StatefulWidget {
     this.bottomActionText,
     this.prioritizedItems = const [],
     this.showDefaultItems = true,
+    this.showItems = true,
     this.wrapItemsBuilder,
+    this.formKey,
+    this.extraWidgets,
     super.key,
   });
 
@@ -41,7 +44,10 @@ class ProfileWrapper extends StatefulWidget {
   final Function rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
   final bool showDefaultItems;
+  final bool showItems;
   final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
+  final Map<String, Widget>? extraWidgets;
+  final GlobalKey<FormState>? formKey;
 
   /// Map keys of items that should be shown first before the default items and the rest of the items.
   final List<String> prioritizedItems;
@@ -51,161 +57,128 @@ class ProfileWrapper extends StatefulWidget {
 }
 
 class _ProfileWrapperState extends State<ProfileWrapper> {
-  List<Widget> defaultItems = [];
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late Map<String, Widget> widgets = {};
+  Map<String, Widget> defaultItems = {};
+  late GlobalKey<FormState> _formKey;
   Map<String, dynamic> formValues = {};
   bool _isUploadingImage = false;
   late final Widget child;
 
   @override
   void initState() {
+    _formKey = widget.formKey ?? GlobalKey<FormState>();
+
     super.initState();
-    if (widget.itemBuilder == null) {
-      ItemBuilder builder = ItemBuilder(
-        options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
-      );
-      defaultItems.add(
-        builder.build(
-          'first_name',
-          widget.user.firstName,
-          null,
-          (value) {
-            submitAllChangedFields();
-          },
-          (v) {
-            if (widget.user.firstName != v) {
-              widget.user.firstName = v;
-              widget.service.editProfile(widget.user, 'first_name', v);
-            }
-          },
-        ),
-      );
-      defaultItems.add(
-        SizedBox(
-          height: widget.style.betweenDefaultItemPadding,
-        ),
-      );
-      defaultItems.add(
-        builder.build(
-          'last_name',
-          widget.user.lastName,
-          null,
-          (value) {
-            submitAllChangedFields();
-          },
-          (v) {
-            if (widget.user.lastName != v) {
-              widget.user.lastName = v;
-              widget.service.editProfile(widget.user, 'last_name', v);
-            }
-          },
-        ),
-      );
-      defaultItems.add(
-        SizedBox(
-          height: widget.style.betweenDefaultItemPadding,
-        ),
-      );
-    } else {
-      defaultItems.add(
-        widget.itemBuilder!.build(
-          'first_name',
-          widget.user.firstName,
-          null,
-          (value) {
-            submitAllChangedFields();
-          },
-          (v) {
-            if (widget.user.firstName != v) {
-              widget.user.firstName = v;
-              widget.service.editProfile(widget.user, 'first_name', v);
-            }
-          },
-        ),
-      );
-      defaultItems.add(
-        SizedBox(
-          height: widget.style.betweenDefaultItemPadding,
-        ),
-      );
-      defaultItems.add(
-        widget.itemBuilder!.build(
-          'last_name',
-          widget.user.lastName,
-          null,
-          (value) {
-            submitAllChangedFields();
-          },
-          (v) {
-            if (widget.user.lastName != v) {
-              widget.user.lastName = v;
-              widget.service.editProfile(widget.user, 'last_name', v);
-            }
-          },
-        ),
-      );
-      defaultItems.add(
-        SizedBox(
-          height: widget.style.betweenDefaultItemPadding,
-        ),
-      );
+    if (widget.showDefaultItems) {
+      if (widget.itemBuilder == null) {
+        ItemBuilder builder = ItemBuilder(
+          options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
+        );
+        defaultItems.addAll({
+          'first_name': builder.build(
+            'first_name',
+            widget.user.firstName,
+            null,
+            (value) {
+              submitAllChangedFields();
+            },
+            (v) {
+              if (widget.user.firstName != v) {
+                widget.user.firstName = v;
+                widget.service.editProfile(widget.user, 'first_name', v);
+              }
+            },
+          ),
+          'last_name': builder.build(
+            'last_name',
+            widget.user.lastName,
+            null,
+            (value) {
+              submitAllChangedFields();
+            },
+            (v) {
+              if (widget.user.lastName != v) {
+                widget.user.lastName = v;
+                widget.service.editProfile(widget.user, 'last_name', v);
+              }
+            },
+          ),
+        });
+      } else {
+        defaultItems.addAll({
+          'first_name': widget.itemBuilder!.build(
+            'first_name',
+            widget.user.firstName,
+            null,
+            (value) {
+              submitAllChangedFields();
+            },
+            (v) {
+              if (widget.user.firstName != v) {
+                widget.user.firstName = v;
+                widget.service.editProfile(widget.user, 'first_name', v);
+              }
+            },
+          ),
+          'last_name': widget.itemBuilder!.build(
+            'last_name',
+            widget.user.lastName,
+            null,
+            (value) {
+              submitAllChangedFields();
+            },
+            (v) {
+              if (widget.user.lastName != v) {
+                widget.user.lastName = v;
+                widget.service.editProfile(widget.user, 'last_name', v);
+              }
+            },
+          ),
+        });
+      }
     }
+    widgets.addAll(widget.extraWidgets ?? {});
+    widgets.addAll(defaultItems);
+    widgets.addAll(ItemList(
+      Map.fromEntries(widget.user.profileData!.toMap().entries),
+      widget.user.profileData!.mapWidget(
+        () {
+          widget.rebuild();
+        },
+        context,
+      ),
+      (key, value) {
+        if (widget.user.toMap()['profile_data'][key] == null) {
+          widget.service.editProfile(widget.user, key, value);
+        } else if (widget.user.toMap()['profile_data'][key] != value) {
+          widget.service.editProfile(widget.user, key, value);
+        }
+      },
+      () {
+        submitAllChangedFields();
+      },
+      itemBuilder: widget.itemBuilder,
+      itemBuilderOptions: widget.itemBuilderOptions,
+      formKey: _formKey,
+    ).getItemList());
+
     var items = Wrap(
+      alignment: widget.wrapViewOptions?.wrapAlignment ?? WrapAlignment.start,
       direction: widget.wrapViewOptions?.direction ?? Axis.vertical,
       spacing: widget.wrapViewOptions?.spacing ?? 0,
       runSpacing: widget.wrapViewOptions?.runSpacing ?? 0,
       clipBehavior: widget.wrapViewOptions?.clipBehavior ?? Clip.none,
       children: [
-        ItemList(
-          Map.fromEntries(widget.user.profileData!.toMap().entries.where(
-              (element) => widget.prioritizedItems.contains(element.key))),
-          widget.user.profileData!.mapWidget(
-            () {
-              widget.rebuild();
-            },
-            context,
-          ),
-          widget.style.betweenDefaultItemPadding,
-          (key, value) {
-            if (widget.user.toMap()['profile_data'][key] == null) {
-              widget.service.editProfile(widget.user, key, value);
-            } else if (widget.user.toMap()['profile_data'][key] != value) {
-              widget.service.editProfile(widget.user, key, value);
-            }
-          },
-          () {
-            submitAllChangedFields();
-          },
-          itemBuilder: widget.itemBuilder,
-          itemBuilderOptions: widget.itemBuilderOptions,
-          formKey: formKey,
-        ),
-        if (widget.showDefaultItems) ...defaultItems,
-        // remove all the items that have priority from the widget.user.profileData!.toMap()
-        ItemList(
-          Map.fromEntries(widget.user.profileData!.toMap().entries.where(
-              (element) => !widget.prioritizedItems.contains(element.key))),
-          widget.user.profileData!.mapWidget(
-            () {
-              widget.rebuild();
-            },
-            context,
-          ),
-          widget.style.betweenDefaultItemPadding,
-          (key, value) {
-            if (widget.user.toMap()['profile_data'][key] == null) {
-              widget.service.editProfile(widget.user, key, value);
-            } else if (widget.user.toMap()['profile_data'][key] != value) {
-              widget.service.editProfile(widget.user, key, value);
-            }
-          },
-          () {
-            submitAllChangedFields();
-          },
-          itemBuilder: widget.itemBuilder,
-          itemBuilderOptions: widget.itemBuilderOptions,
-          formKey: formKey,
-        ),
+        //add all items with prio then those without
+        for (var key in widget.prioritizedItems)
+          // get values from widgets with this key
+          ...widgets.entries
+              .where((element) => element.key == key)
+              .map((e) => e.value),
+
+        ...widgets.entries
+            .where((element) => !widget.prioritizedItems.contains(element.key))
+            .map((e) => e.value),
       ],
     );
 
@@ -250,8 +223,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                 height: widget.style.betweenDefaultItemPadding,
               ),
             ],
-            // all the items that have priority above the default items
-            Form(key: formKey, child: child),
+            if (widget.showItems) Form(key: _formKey, child: child),
             if (widget.bottomActionText != null) ...[
               SizedBox(
                 height: widget.style.betweenDefaultItemPadding,
@@ -280,8 +252,8 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
   /// This calls onSaved on all the fiels which check if they have a new value
   void submitAllChangedFields() {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
     }
   }
 }

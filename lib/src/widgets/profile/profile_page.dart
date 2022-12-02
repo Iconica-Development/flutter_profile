@@ -35,6 +35,7 @@ class ProfilePage extends StatefulWidget {
     this.style = const ProfileStyle(),
     this.customAvatar,
     this.showAvatar = true,
+    this.showItems = true,
     this.itemBuilder,
     this.itemBuilderOptions,
     this.bottomActionText,
@@ -42,6 +43,8 @@ class ProfilePage extends StatefulWidget {
     this.showDefaultItems = true,
     this.wrapItemsBuilder,
     this.wrapViewOptions,
+    this.extraWidgets,
+    this.formKey,
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -58,6 +61,9 @@ class ProfilePage extends StatefulWidget {
 
   /// Whether to show the users avatar.
   final bool showAvatar;
+
+  /// Whether you want to show the input fields, sometimes you just want to edit the avatar.
+  final bool showItems;
 
   /// Sets the text for the [InkWell] at the bottom of the profile page. The [InkWell] is disabled when null.
   final String? bottomActionText;
@@ -80,6 +86,12 @@ class ProfilePage extends StatefulWidget {
   /// Edit the direction and spacing between every item
   final WrapViewOptions? wrapViewOptions;
 
+  /// The map of extra widgets that might want to be added like empty SizedBoxes for styling.
+  final Map<String, Widget>? extraWidgets;
+
+  /// Use the form key to save on any custom callback
+  final GlobalKey<FormState>? formKey;
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -96,6 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: widget.style,
       customAvatar: widget.customAvatar,
       showAvatar: widget.showAvatar,
+      showItems: widget.showItems,
       bottomActionText: widget.bottomActionText,
       itemBuilder: widget.itemBuilder,
       itemBuilderOptions: widget.itemBuilderOptions,
@@ -103,15 +116,22 @@ class _ProfilePageState extends State<ProfilePage> {
       showDefaultItems: widget.showDefaultItems,
       wrapItemsBuilder: widget.wrapItemsBuilder,
       wrapViewOptions: widget.wrapViewOptions,
+      extraWidgets: widget.extraWidgets,
+      formKey: widget.formKey,
     );
   }
 }
 
 class WrapViewOptions {
   WrapViewOptions(
-      {this.direction, this.spacing, this.runSpacing, this.clipBehavior});
+      {this.direction,
+      this.spacing,
+      this.wrapAlignment,
+      this.runSpacing,
+      this.clipBehavior});
   Axis? direction;
   double? spacing;
   double? runSpacing;
   Clip? clipBehavior;
+  WrapAlignment? wrapAlignment;
 }
