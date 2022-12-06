@@ -25,3 +25,11 @@
 ## 1.0.1
 
 * Added a default wrap instead of column
+
+## 1.0.2
+
+* Added form key and more customizability for web
+
+## 1.0.3
+
+* No longer crashes without profile data
