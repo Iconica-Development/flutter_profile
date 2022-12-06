@@ -6,81 +6,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
-class ItemList extends StatefulWidget {
-  const ItemList(
+class ItemList {
+  ItemList(
     this.items,
     this.typeMap,
-    this.spacing,
     this.updateProfile,
     this.saveProfile, {
     required this.formKey,
     this.itemBuilder,
     this.itemBuilderOptions,
-    super.key,
-  });
+  }) {
+    for (var item in items.entries) {
+      widgets.addAll({
+        item.key: itemBuilder == null
+            ? builder.build(
+                item.key,
+                item.value,
+                typeMap[item.key],
+                (value) {
+                  saveProfile();
+                },
+                (value) {
+                  updateProfile(item.key, value);
+                },
+              )
+            : itemBuilder!.build(
+                item.key,
+                item.value,
+                typeMap[item.key],
+                (value) {
+                  saveProfile();
+                },
+                (value) {
+                  updateProfile(item.key, value);
+                },
+              )
+      });
+    }
+  }
+  Map<String, Widget> getItemList() => widgets;
 
   final Map<String, dynamic> items;
   final Map<String, dynamic> typeMap;
-  final double spacing;
   final Function(String, String?) updateProfile;
   final Function() saveProfile;
   final ItemBuilder? itemBuilder;
   final ItemBuilderOptions? itemBuilderOptions;
   final GlobalKey<FormState> formKey;
 
-  @override
-  State<ItemList> createState() => _ItemListState();
-}
-
-class _ItemListState extends State<ItemList> {
-  var widgets = <Widget>[];
+  Map<String, Widget> widgets = {};
 
   late ItemBuilder builder = ItemBuilder(
-    options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
+    options: itemBuilderOptions ?? ItemBuilderOptions(),
   );
-
-  @override
-  void initState() {
-    super.initState();
-
-    for (var item in widget.items.entries) {
-      widget.itemBuilder == null
-          ? widgets.add(
-              builder.build(
-                item.key,
-                item.value,
-                widget.typeMap[item.key],
-                (value) {
-                  widget.saveProfile();
-                },
-                (value) {
-                  widget.updateProfile(item.key, value);
-                },
-              ),
-            )
-          : widgets.add(
-              widget.itemBuilder!.build(
-                item.key,
-                item.value,
-                widget.typeMap[item.key],
-                (value) {
-                  widget.saveProfile();
-                },
-                (value) {
-                  widget.updateProfile(item.key, value);
-                },
-              ),
-            );
-      widgets.add(SizedBox(
-        height: widget.spacing,
-      ));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: widgets,
-    );
-  }
 }

@@ -35,8 +35,8 @@ class ProfileExample extends StatefulWidget {
 
 class _ProfileExampleState extends State<ProfileExample> {
   late User _user;
-  ProfileData profileData =
-      ExampleProfileData().fromMap({'email': 'example@email.com'});
+  ProfileData profileData = ExampleProfileData().fromMap(
+      {'email': 'example@email.com', 'about': 'about', 'remarks': 'remarks'});
 
   @override
   void initState() {
@@ -53,55 +53,62 @@ class _ProfileExampleState extends State<ProfileExample> {
 
   @override
   Widget build(BuildContext context) {
+    //get width and height
+    var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Center(
-        child: ProfilePage(
-          wrapViewOptions:
-              WrapViewOptions(direction: Axis.vertical, spacing: 16),
-          bottomActionText: 'Log out',
-          itemBuilderOptions: ItemBuilderOptions(
-            inputDecorationField: {
-              'first_name': const InputDecoration(
-                constraints: BoxConstraints(maxHeight: 70, maxWidth: 200),
-                label: Text('First name'),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 400,
+              width: 800,
+              child: ProfilePage(
+                showItems: false,
+                prioritizedItems: const ['remarks', 'about'],
+                wrapViewOptions: WrapViewOptions(
+                  direction: Axis.horizontal,
+                  spacing: 16,
+                ),
+                bottomActionText: 'Log out',
+                itemBuilderOptions: ItemBuilderOptions(
+                  //no label for email
+                  validators: {
+                    'first_name': (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field empty';
+                      }
+                      return null;
+                    },
+                    'last_name': (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field empty';
+                      }
+                      return null;
+                    },
+                    'email': (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field empty';
+                      }
+                      return null;
+                    },
+                  },
+                ),
+                user: _user,
+                service: ExampleProfileService(),
+                style: ProfileStyle(
+                  avatarTextStyle: const TextStyle(fontSize: 20),
+                  pagePadding: EdgeInsets.only(
+                    top: 50,
+                    bottom: 50,
+                    left: width * 0.1,
+                    right: width * 0.1,
+                  ),
+                ),
               ),
-              'last_name': const InputDecoration(
-                constraints: BoxConstraints(maxHeight: 70, maxWidth: 150),
-                label: Text('First name'),
-              ),
-            },
-            validators: {
-              'first_name': (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Field empty';
-                }
-                return null;
-              },
-              'last_name': (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Field empty';
-                }
-                return null;
-              },
-              'email': (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Field empty';
-                }
-                return null;
-              },
-            },
-          ),
-          user: _user,
-          service: ExampleProfileService(),
-          style: ProfileStyle(
-            avatarTextStyle: const TextStyle(fontSize: 20),
-            pagePadding: EdgeInsets.only(
-              top: 50,
-              bottom: 50,
-              left: MediaQuery.of(context).size.width * 0.1,
-              right: MediaQuery.of(context).size.width * 0.1,
             ),
-          ),
+            const Text('test')
+          ],
         ),
       ),
     );
@@ -127,7 +134,7 @@ class CustomItemBuilderExample extends ItemBuilder {
           options.inputDecorationField?[key] ?? options.inputDecoration;
       var formFieldKey = GlobalKey<FormFieldState>();
       return SizedBox(
-        width: 300,
+        width: 400,
         child: TextFormField(
           keyboardType: options.keyboardType?[key],
           key: formFieldKey,
