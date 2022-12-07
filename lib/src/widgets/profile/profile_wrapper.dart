@@ -139,28 +139,30 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
     }
     widgets.addAll(widget.extraWidgets ?? {});
     widgets.addAll(defaultItems);
-    widgets.addAll(ItemList(
-      Map.fromEntries(widget.user.profileData!.toMap().entries),
-      widget.user.profileData!.mapWidget(
-        () {
-          widget.rebuild();
+    if (widget.user.profileData != null) {
+      widgets.addAll(ItemList(
+        Map.fromEntries(widget.user.profileData!.toMap().entries),
+        widget.user.profileData!.mapWidget(
+          () {
+            widget.rebuild();
+          },
+          context,
+        ),
+        (key, value) {
+          if (widget.user.toMap()['profile_data'][key] == null) {
+            widget.service.editProfile(widget.user, key, value);
+          } else if (widget.user.toMap()['profile_data'][key] != value) {
+            widget.service.editProfile(widget.user, key, value);
+          }
         },
-        context,
-      ),
-      (key, value) {
-        if (widget.user.toMap()['profile_data'][key] == null) {
-          widget.service.editProfile(widget.user, key, value);
-        } else if (widget.user.toMap()['profile_data'][key] != value) {
-          widget.service.editProfile(widget.user, key, value);
-        }
-      },
-      () {
-        submitAllChangedFields();
-      },
-      itemBuilder: widget.itemBuilder,
-      itemBuilderOptions: widget.itemBuilderOptions,
-      formKey: _formKey,
-    ).getItemList());
+        () {
+          submitAllChangedFields();
+        },
+        itemBuilder: widget.itemBuilder,
+        itemBuilderOptions: widget.itemBuilderOptions,
+        formKey: _formKey,
+      ).getItemList());
+    }
 
     var items = Wrap(
       alignment: widget.wrapViewOptions?.wrapAlignment ?? WrapAlignment.start,
