@@ -18,7 +18,7 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageProvider = _getImageProvider(user!);
+    var imageProvider = _getImageProvider(user);
     var hasImage = imageProvider != null;
     var hasNames =
         user != null && (user!.firstName != null || user!.lastName != null);
