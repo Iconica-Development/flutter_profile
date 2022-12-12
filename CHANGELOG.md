@@ -1,3 +1,7 @@
+# 1.0.4
+
+* Fixed a nullcheck being done on the nullable user in Avatar
+
 ## 1.0.3
 
 * No longer crashes without profile data
