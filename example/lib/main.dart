@@ -140,6 +140,7 @@ class CustomItemBuilderExample extends ItemBuilder {
           key: formFieldKey,
           controller: controller,
           decoration: inputDecoration,
+          style: options.inputTextStyle,
           readOnly: options.readOnly,
           onFieldSubmitted: (value) {
             updateItem(value);

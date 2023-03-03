@@ -28,6 +28,7 @@ class ItemBuilder {
           options.inputDecorationField?[key] ?? options.inputDecoration;
       var formFieldKey = GlobalKey<FormFieldState>();
       return TextFormField(
+        style: options.inputTextStyle,
         keyboardType: options.keyboardType?[key],
         key: formFieldKey,
         controller: controller,

@@ -1,4 +1,8 @@
-# 1.0.4
+## 1.0.5
+
+* Added TextStyle option for all text fields 
+
+## 1.0.4
 
 * Fixed a nullcheck being done on the nullable user in Avatar
 
