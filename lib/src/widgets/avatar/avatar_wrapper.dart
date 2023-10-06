@@ -15,10 +15,12 @@ class AvatarWrapper extends StatelessWidget {
     this.size = 100,
     this.textStyle,
     this.customAvatar,
+    this.avatarBackgroundColor,
   }) : super(key: key);
 
   final User user;
   final Widget? customAvatar;
+  final Color? avatarBackgroundColor;
   final bool showName;
   final EdgeInsets padding;
   final TextStyle? textStyle;
@@ -30,6 +32,7 @@ class AvatarWrapper extends StatelessWidget {
         Avatar(
           user: user,
           size: size,
+          avatarBackgroundColor: avatarBackgroundColor,
         );
 
     return showName

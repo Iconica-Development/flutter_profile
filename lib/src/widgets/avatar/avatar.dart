@@ -11,10 +11,12 @@ class Avatar extends StatelessWidget {
     Key? key,
     this.user,
     this.size = 100,
+    this.avatarBackgroundColor,
   }) : super(key: key);
 
   final User? user;
   final double size;
+  final Color? avatarBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,10 @@ class Avatar extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: !hasImage && hasNames
-            ? _generateColorWithIntials(user!.firstName, user!.lastName)
-            : null,
+        color: avatarBackgroundColor ??
+            (!hasImage && hasNames
+                ? _generateColorWithIntials(user!.firstName, user!.lastName)
+                : null),
         image: hasImage
             ? DecorationImage(
                 image: imageProvider,
