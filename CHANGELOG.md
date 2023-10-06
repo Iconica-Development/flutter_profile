@@ -1,3 +1,7 @@
+## 1.1.6
+
+- Fixed avatar image zooming when constrained beyond it's size
+
 ## 1.1.5
 
 - Added custom background color for avatar

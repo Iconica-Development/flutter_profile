@@ -37,7 +37,7 @@ class Avatar extends StatelessWidget {
         image: hasImage
             ? DecorationImage(
                 image: imageProvider,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               )
             : null,
       ),
