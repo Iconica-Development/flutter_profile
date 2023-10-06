@@ -20,6 +20,7 @@ class ProfileWrapper extends StatefulWidget {
     this.style = const ProfileStyle(),
     this.customAvatar,
     this.showAvatar = true,
+    this.avatarBackgroundColor,
     this.itemBuilder,
     this.itemBuilderOptions,
     this.wrapViewOptions,
@@ -38,6 +39,7 @@ class ProfileWrapper extends StatefulWidget {
   final ProfileStyle style;
   final Widget? customAvatar;
   final bool showAvatar;
+  final Color? avatarBackgroundColor;
   final String? bottomActionText;
   final ItemBuilder? itemBuilder;
   final WrapViewOptions? wrapViewOptions;
@@ -206,6 +208,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                   ),
                 ),
                 child: AvatarWrapper(
+                  avatarBackgroundColor: widget.avatarBackgroundColor,
                   user: widget.user,
                   textStyle: widget.style.avatarTextStyle,
                   customAvatar: _isUploadingImage
