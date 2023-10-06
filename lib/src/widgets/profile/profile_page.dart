@@ -35,6 +35,7 @@ class ProfilePage extends StatefulWidget {
     this.style = const ProfileStyle(),
     this.customAvatar,
     this.showAvatar = true,
+    this.avatarBackgroundColor,
     this.showItems = true,
     this.itemBuilder,
     this.itemBuilderOptions,
@@ -61,6 +62,9 @@ class ProfilePage extends StatefulWidget {
 
   /// Whether to show the users avatar.
   final bool showAvatar;
+
+  ///The background color of the avatar when no image is available.
+  final Color? avatarBackgroundColor;
 
   /// Whether you want to show the input fields, sometimes you just want to edit the avatar.
   final bool showItems;
@@ -118,6 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
       wrapViewOptions: widget.wrapViewOptions,
       extraWidgets: widget.extraWidgets,
       formKey: widget.formKey,
+      avatarBackgroundColor: widget.avatarBackgroundColor,
     );
   }
 }
