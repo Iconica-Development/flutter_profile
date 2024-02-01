@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 import 'package:flutter/material.dart';
+import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
 /// ItemBuilder is used to set the standard textfield for each undefined users data item.
@@ -22,10 +23,9 @@ class ItemBuilder {
         text: '${value ?? ''}',
       );
 
-      late InputDecoration inputDecoration;
-
-      inputDecoration =
+      var inputDecoration =
           options.inputDecorationField?[key] ?? options.inputDecoration;
+
       var formFieldKey = GlobalKey<FormFieldState>();
       return TextFormField(
         style: options.inputTextStyle,
@@ -46,5 +46,23 @@ class ItemBuilder {
       );
     }
     return widget;
+  }
+
+  Widget buildPassword(
+    String key,
+    Function(String?) onChanged,
+    String? Function(String?) validator,
+  ) {
+    var inputDecoration =
+        options.inputDecorationField?[key] ?? options.inputDecoration;
+
+    return FlutterFormInputPassword(
+      style: options.inputTextStyle,
+      decoration: inputDecoration,
+      onChanged: onChanged,
+      enabled: !options.readOnly,
+      validator: (value) =>
+          validator(value) ?? options.validators?[key]?.call(value),
+    );
   }
 }

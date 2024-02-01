@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Added the posibilty to enable the user to change it's password.
+
 ## 1.1.6
 
 - Fixed avatar image zooming when constrained beyond it's size

@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
-import 'dart:typed_data';
-
 import 'package:example/utils/example_profile_service.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +42,6 @@ class _ProfileExampleState extends State<ProfileExample> {
     _user = User(
       firstName: 'Firstname',
       lastName: 'Lastname',
-      image: Uint8List.fromList(
-        [],
-      ),
       profileData: profileData,
     );
   }
@@ -58,57 +53,62 @@ class _ProfileExampleState extends State<ProfileExample> {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 400,
-              width: 800,
-              child: ProfilePage(
-                showItems: false,
-                prioritizedItems: const ['remarks', 'about'],
-                wrapViewOptions: WrapViewOptions(
-                  direction: Axis.horizontal,
-                  spacing: 16,
-                ),
-                bottomActionText: 'Log out',
-                itemBuilderOptions: ItemBuilderOptions(
-                  //no label for email
-                  validators: {
-                    'first_name': (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Field empty';
-                      }
-                      return null;
-                    },
-                    'last_name': (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Field empty';
-                      }
-                      return null;
-                    },
-                    'email': (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Field empty';
-                      }
-                      return null;
-                    },
-                  },
-                ),
-                user: _user,
-                service: ExampleProfileService(),
-                style: ProfileStyle(
-                  avatarTextStyle: const TextStyle(fontSize: 20),
-                  pagePadding: EdgeInsets.only(
-                    top: 50,
-                    bottom: 50,
-                    left: width * 0.1,
-                    right: width * 0.1,
-                  ),
+        child: ProfilePage(
+          changePasswordConfig:
+              const ChangePasswordConfig(enablePasswordChange: true),
+          wrapViewOptions: WrapViewOptions(
+            direction: Axis.horizontal,
+            spacing: 16,
+          ),
+          bottomActionText: 'Log out',
+          itemBuilderOptions: ItemBuilderOptions(
+            //no label for email
+            validators: {
+              'first_name': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
+              'last_name': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
+              'email': (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Field empty';
+                }
+                return null;
+              },
+            },
+            inputDecorationField: {
+              'password_1': const InputDecoration(
+                constraints: BoxConstraints(
+                  maxHeight: 60,
+                  maxWidth: 200,
                 ),
               ),
+              'password_2': const InputDecoration(
+                constraints: BoxConstraints(
+                  maxHeight: 60,
+                  maxWidth: 200,
+                ),
+              ),
+            },
+          ),
+          user: _user,
+          service: ExampleProfileService(),
+          style: ProfileStyle(
+            avatarTextStyle: const TextStyle(fontSize: 20),
+            pagePadding: EdgeInsets.only(
+              top: 50,
+              bottom: 50,
+              left: width * 0.1,
+              right: width * 0.1,
             ),
-            const Text('test')
-          ],
+          ),
         ),
       ),
     );

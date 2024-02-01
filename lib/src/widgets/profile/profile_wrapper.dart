@@ -3,12 +3,14 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 import 'package:flutter/material.dart';
+import 'package:flutter_profile/src/models/change_password_config.dart';
 import 'package:flutter_profile/src/models/user.dart';
 import 'package:flutter_profile/src/services/profile_service.dart';
 import 'package:flutter_profile/src/widgets/avatar/avatar_wrapper.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_list.dart';
+import 'package:flutter_profile/src/widgets/profile/change_password_widget.dart';
 import 'package:flutter_profile/src/widgets/profile/profile_page.dart';
 import 'package:flutter_profile/src/widgets/profile/profile_style.dart';
 
@@ -31,6 +33,8 @@ class ProfileWrapper extends StatefulWidget {
     this.wrapItemsBuilder,
     this.formKey,
     this.extraWidgets,
+    this.changePasswordConfig =
+        const ChangePasswordConfig(enablePasswordChange: false),
     super.key,
   });
 
@@ -50,6 +54,7 @@ class ProfileWrapper extends StatefulWidget {
   final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
   final Map<String, Widget>? extraWidgets;
   final GlobalKey<FormState>? formKey;
+  final ChangePasswordConfig changePasswordConfig;
 
   /// Map keys of items that should be shown first before the default items and the rest of the items.
   final List<String> prioritizedItems;
@@ -193,63 +198,85 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: Padding(
-        padding: widget.style.pagePadding,
-        child: Column(
-          children: [
-            if (widget.showAvatar) ...[
-              InkWell(
-                onTap: () => widget.service.uploadImage(
-                  context,
-                  onUploadStateChanged: (isUploading) => setState(
-                    () {
-                      _isUploadingImage = isUploading;
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: widget.style.pagePadding,
+            child: Column(
+              children: [
+                if (widget.showAvatar) ...[
+                  InkWell(
+                    onTap: () => widget.service.uploadImage(
+                      context,
+                      onUploadStateChanged: (isUploading) => setState(
+                        () {
+                          _isUploadingImage = isUploading;
+                        },
+                      ),
+                    ),
+                    child: AvatarWrapper(
+                      avatarBackgroundColor: widget.avatarBackgroundColor,
+                      user: widget.user,
+                      textStyle: widget.style.avatarTextStyle,
+                      customAvatar: _isUploadingImage
+                          ? Container(
+                              width: 100,
+                              height: 100,
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const CircularProgressIndicator(),
+                            )
+                          : widget.customAvatar,
+                    ),
+                  ),
+                  SizedBox(
+                    height: widget.style.betweenDefaultItemPadding,
+                  ),
+                ],
+                if (widget.showItems) Form(key: _formKey, child: child),
+                if (widget.changePasswordConfig.enablePasswordChange) ...[
+                  Expanded(
+                    child: ChangePassword(
+                      config: widget.changePasswordConfig,
+                      service: widget.service,
+                      wrapViewOptions: widget.wrapViewOptions,
+                      wrapItemsBuilder: widget.wrapItemsBuilder,
+                      itemBuilder: widget.itemBuilder,
+                      itemBuilderOptions: widget.itemBuilderOptions,
+                      style: widget.style,
+                    ),
+                  ),
+                ],
+                if (widget.bottomActionText != null) ...[
+                  SizedBox(
+                    height: widget.style.betweenDefaultItemPadding,
+                  ),
+                  if (!widget.changePasswordConfig.enablePasswordChange) ...[
+                    const Spacer(),
+                  ],
+                  InkWell(
+                    onTap: () {
+                      widget.service.pageBottomAction();
                     },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.bottomActionText!,
+                        style: widget.style.bottomActionTextStyle,
+                      ),
+                    ),
                   ),
-                ),
-                child: AvatarWrapper(
-                  avatarBackgroundColor: widget.avatarBackgroundColor,
-                  user: widget.user,
-                  textStyle: widget.style.avatarTextStyle,
-                  customAvatar: _isUploadingImage
-                      ? Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const CircularProgressIndicator(),
-                        )
-                      : widget.customAvatar,
-                ),
-              ),
-              SizedBox(
-                height: widget.style.betweenDefaultItemPadding,
-              ),
-            ],
-            if (widget.showItems) Form(key: _formKey, child: child),
-            if (widget.bottomActionText != null) ...[
-              SizedBox(
-                height: widget.style.betweenDefaultItemPadding,
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  widget.service.pageBottomAction();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.bottomActionText!,
-                    style: widget.style.bottomActionTextStyle,
-                  ),
-                ),
-              ),
-            ] else ...[
-              const Spacer(),
-            ],
-          ],
+                ],
+                if (widget.bottomActionText == null &&
+                    !widget.changePasswordConfig.enablePasswordChange) ...[
+                  const Spacer(),
+                ]
+              ],
+            ),
+          ),
         ),
       ),
     );

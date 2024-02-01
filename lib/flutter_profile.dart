@@ -11,4 +11,5 @@ export 'src/widgets/avatar/avatar.dart';
 export 'src/services/profile_service.dart';
 export 'src/widgets/item_builder/item_builder.dart';
 export 'src/models/user.dart';
+export 'src/models/change_password_config.dart';
 export 'src/widgets/item_builder/item_builder_options.dart';
