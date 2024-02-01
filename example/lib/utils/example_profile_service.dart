@@ -28,4 +28,9 @@ class ExampleProfileService extends ProfileService {
       {required Function(bool isUploading) onUploadStateChanged}) {
     debugPrint('Updating avatar');
   }
+
+  @override
+  FutureOr<void> changePassword(String password) {
+    debugPrint(password);
+  }
 }

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 import 'package:flutter/material.dart';
+import 'package:flutter_profile/src/models/change_password_config.dart';
 import 'package:flutter_profile/src/models/user.dart';
 import 'package:flutter_profile/src/services/profile_service.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder.dart';
@@ -46,6 +47,8 @@ class ProfilePage extends StatefulWidget {
     this.wrapViewOptions,
     this.extraWidgets,
     this.formKey,
+    this.changePasswordConfig =
+        const ChangePasswordConfig(enablePasswordChange: false),
   }) : super(key: key);
 
   /// User containing all the user data.
@@ -96,6 +99,9 @@ class ProfilePage extends StatefulWidget {
   /// Use the form key to save on any custom callback
   final GlobalKey<FormState>? formKey;
 
+  /// Configuration to give the user the option to change his/her password.
+  final ChangePasswordConfig changePasswordConfig;
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -123,6 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
       extraWidgets: widget.extraWidgets,
       formKey: widget.formKey,
       avatarBackgroundColor: widget.avatarBackgroundColor,
+      changePasswordConfig: widget.changePasswordConfig,
     );
   }
 }

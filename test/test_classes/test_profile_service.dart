@@ -25,4 +25,7 @@ class TestProfileService extends ProfileService {
     BuildContext context, {
     required Function(bool isUploading) onUploadStateChanged,
   }) {}
+
+  @override
+  FutureOr<void> changePassword(String password) {}
 }

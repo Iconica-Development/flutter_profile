@@ -24,4 +24,6 @@ abstract class ProfileService {
     BuildContext context, {
     required Function(bool isUploading) onUploadStateChanged,
   });
+
+  FutureOr<void> changePassword(String password);
 }
