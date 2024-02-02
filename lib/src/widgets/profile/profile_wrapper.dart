@@ -47,7 +47,7 @@ class ProfileWrapper extends StatefulWidget {
   final String? bottomActionText;
   final ItemBuilder? itemBuilder;
   final WrapViewOptions? wrapViewOptions;
-  final Function rebuild;
+  final Function() rebuild;
   final ItemBuilderOptions? itemBuilderOptions;
   final bool showDefaultItems;
   final bool showItems;
@@ -56,7 +56,8 @@ class ProfileWrapper extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final ChangePasswordConfig changePasswordConfig;
 
-  /// Map keys of items that should be shown first before the default items and the rest of the items.
+  /// Map keys of items that should be shown first before the default items and
+  /// the rest of the items.
   final List<String> prioritizedItems;
 
   @override
@@ -78,7 +79,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
     super.initState();
     if (widget.showDefaultItems) {
       if (widget.itemBuilder == null) {
-        ItemBuilder builder = ItemBuilder(
+        var builder = ItemBuilder(
           options: widget.itemBuilderOptions ?? ItemBuilderOptions(),
         );
         defaultItems.addAll({
@@ -89,7 +90,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             (value) {
               submitAllChangedFields();
             },
-            (v) {
+            (v) async {
               if (widget.user.firstName != v) {
                 widget.user.firstName = v;
                 widget.service.editProfile(widget.user, 'first_name', v);
@@ -103,7 +104,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             (value) {
               submitAllChangedFields();
             },
-            (v) {
+            (v) async {
               if (widget.user.lastName != v) {
                 widget.user.lastName = v;
                 widget.service.editProfile(widget.user, 'last_name', v);
@@ -120,7 +121,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             (value) {
               submitAllChangedFields();
             },
-            (v) {
+            (v) async {
               if (widget.user.firstName != v) {
                 widget.user.firstName = v;
                 widget.service.editProfile(widget.user, 'first_name', v);
@@ -134,7 +135,7 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
             (value) {
               submitAllChangedFields();
             },
-            (v) {
+            (v) async {
               if (widget.user.lastName != v) {
                 widget.user.lastName = v;
                 widget.service.editProfile(widget.user, 'last_name', v);
@@ -147,28 +148,28 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
     widgets.addAll(widget.extraWidgets ?? {});
     widgets.addAll(defaultItems);
     if (widget.user.profileData != null) {
-      widgets.addAll(ItemList(
-        Map.fromEntries(widget.user.profileData!.toMap().entries),
-        widget.user.profileData!.mapWidget(
-          () {
-            widget.rebuild();
+      widgets.addAll(
+        ItemList(
+          Map.fromEntries(widget.user.profileData!.toMap().entries),
+          widget.user.profileData!.mapWidget(
+            () {
+              widget.rebuild();
+            },
+            context,
+          ),
+          (key, value) async {
+            if (widget.user.profileData?.toMap()[key] == null) {
+              widget.service.editProfile(widget.user, key, value);
+            } else if (widget.user.profileData?.toMap()[key] != value) {
+              widget.service.editProfile(widget.user, key, value);
+            }
           },
-          context,
-        ),
-        (key, value) {
-          if (widget.user.toMap()['profile_data'][key] == null) {
-            widget.service.editProfile(widget.user, key, value);
-          } else if (widget.user.toMap()['profile_data'][key] != value) {
-            widget.service.editProfile(widget.user, key, value);
-          }
-        },
-        () {
-          submitAllChangedFields();
-        },
-        itemBuilder: widget.itemBuilder,
-        itemBuilderOptions: widget.itemBuilderOptions,
-        formKey: _formKey,
-      ).getItemList());
+          submitAllChangedFields,
+          itemBuilder: widget.itemBuilder,
+          itemBuilderOptions: widget.itemBuilderOptions,
+          formKey: _formKey,
+        ).getItemList(),
+      );
     }
 
     var items = Wrap(
@@ -195,92 +196,90 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: widget.style.pagePadding,
-            child: Column(
-              children: [
-                if (widget.showAvatar) ...[
-                  InkWell(
-                    onTap: () => widget.service.uploadImage(
-                      context,
-                      onUploadStateChanged: (isUploading) => setState(
-                        () {
-                          _isUploadingImage = isUploading;
-                        },
+  Widget build(BuildContext context) => Material(
+        color: Colors.transparent,
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: widget.style.pagePadding,
+              child: Column(
+                children: [
+                  if (widget.showAvatar) ...[
+                    InkWell(
+                      onTap: () async => widget.service.uploadImage(
+                        context,
+                        onUploadStateChanged: (bool isUploading) => setState(
+                          () {
+                            _isUploadingImage = isUploading;
+                          },
+                        ),
+                      ),
+                      child: AvatarWrapper(
+                        avatarBackgroundColor: widget.avatarBackgroundColor,
+                        user: widget.user,
+                        textStyle: widget.style.avatarTextStyle,
+                        customAvatar: _isUploadingImage
+                            ? Container(
+                                width: 100,
+                                height: 100,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const CircularProgressIndicator(),
+                              )
+                            : widget.customAvatar,
                       ),
                     ),
-                    child: AvatarWrapper(
-                      avatarBackgroundColor: widget.avatarBackgroundColor,
-                      user: widget.user,
-                      textStyle: widget.style.avatarTextStyle,
-                      customAvatar: _isUploadingImage
-                          ? Container(
-                              width: 100,
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const CircularProgressIndicator(),
-                            )
-                          : widget.customAvatar,
+                    SizedBox(
+                      height: widget.style.betweenDefaultItemPadding,
                     ),
-                  ),
-                  SizedBox(
-                    height: widget.style.betweenDefaultItemPadding,
-                  ),
-                ],
-                if (widget.showItems) Form(key: _formKey, child: child),
-                if (widget.changePasswordConfig.enablePasswordChange) ...[
-                  Expanded(
-                    child: ChangePassword(
-                      config: widget.changePasswordConfig,
-                      service: widget.service,
-                      wrapViewOptions: widget.wrapViewOptions,
-                      wrapItemsBuilder: widget.wrapItemsBuilder,
-                      itemBuilder: widget.itemBuilder,
-                      itemBuilderOptions: widget.itemBuilderOptions,
-                      style: widget.style,
+                  ],
+                  if (widget.showItems) Form(key: _formKey, child: child),
+                  if (widget.changePasswordConfig.enablePasswordChange) ...[
+                    Expanded(
+                      child: ChangePassword(
+                        config: widget.changePasswordConfig,
+                        service: widget.service,
+                        wrapViewOptions: widget.wrapViewOptions,
+                        wrapItemsBuilder: widget.wrapItemsBuilder,
+                        itemBuilder: widget.itemBuilder,
+                        itemBuilderOptions: widget.itemBuilderOptions,
+                        style: widget.style,
+                      ),
                     ),
-                  ),
-                ],
-                if (widget.bottomActionText != null) ...[
-                  SizedBox(
-                    height: widget.style.betweenDefaultItemPadding,
-                  ),
-                  if (!widget.changePasswordConfig.enablePasswordChange) ...[
+                  ],
+                  if (widget.bottomActionText != null) ...[
+                    SizedBox(
+                      height: widget.style.betweenDefaultItemPadding,
+                    ),
+                    if (!widget.changePasswordConfig.enablePasswordChange) ...[
+                      const Spacer(),
+                    ],
+                    InkWell(
+                      onTap: () async {
+                        widget.service.pageBottomAction();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.bottomActionText!,
+                          style: widget.style.bottomActionTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (widget.bottomActionText == null &&
+                      !widget.changePasswordConfig.enablePasswordChange) ...[
                     const Spacer(),
                   ],
-                  InkWell(
-                    onTap: () {
-                      widget.service.pageBottomAction();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.bottomActionText!,
-                        style: widget.style.bottomActionTextStyle,
-                      ),
-                    ),
-                  ),
                 ],
-                if (widget.bottomActionText == null &&
-                    !widget.changePasswordConfig.enablePasswordChange) ...[
-                  const Spacer(),
-                ]
-              ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   /// This calls onSaved on all the fiels which check if they have a new value
   void submitAllChangedFields() {

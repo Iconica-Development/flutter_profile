@@ -39,6 +39,7 @@ class ChangePasswordConfig {
   /// Error text to be shown when either of the textfields is empty.
   final String fieldRequiredErrorText;
 
-  /// Error text to be shown when the second password isn't equal to the first password.
+  /// Error text to be shown when the second password isn't equal
+  /// to the first password.
   final String notEqualErrorText;
 }
