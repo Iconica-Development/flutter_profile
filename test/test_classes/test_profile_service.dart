@@ -23,6 +23,7 @@ class TestProfileService extends ProfileService {
   @override
   FutureOr<void> uploadImage(
     BuildContext context, {
+    // ignore: avoid_positional_boolean_parameters
     required Function(bool isUploading) onUploadStateChanged,
   }) {}
 

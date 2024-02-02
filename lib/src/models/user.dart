@@ -10,12 +10,6 @@ import 'package:flutter/material.dart';
 ///
 /// For additional data profileData can be used.
 class User {
-  String? firstName;
-  String? lastName;
-  Uint8List? image;
-  String? imageUrl;
-  ProfileData? profileData;
-
   User({
     this.firstName,
     this.lastName,
@@ -24,10 +18,6 @@ class User {
     this.profileData,
   });
 
-  String get displayName => '${firstName ?? ''} ${lastName ?? ''}';
-  String get initials =>
-      '${(firstName?.isNotEmpty ?? false) ? firstName![0] : ''}${(lastName?.isNotEmpty ?? false) ? lastName![0] : ''}';
-
   factory User.fromMap(Map<String, dynamic> data) => User(
         firstName: data['first_name'],
         lastName: data['last_name'],
@@ -35,6 +25,16 @@ class User {
         imageUrl: data['image_url'],
         profileData: data['profile_data'],
       );
+  String? firstName;
+  String? lastName;
+  Uint8List? image;
+  String? imageUrl;
+  ProfileData? profileData;
+
+  String get displayName => '${firstName ?? ''} ${lastName ?? ''}';
+  String get initials =>
+      '${(firstName?.isNotEmpty ?? false) ? firstName![0] : ''}'
+      '${(lastName?.isNotEmpty ?? false) ? lastName![0] : ''}';
 
   Map<String, dynamic> toMap() => {
         'first_name': firstName,
@@ -47,9 +47,11 @@ class User {
 
 /// ProfileData is used to store custom/addintional data for a user.
 ///
-/// The MapWidget method is used to bind a [Widget] to one of the keys. This will override the standard textfield.
+/// The MapWidget method is used to bind a [Widget] to one of the keys. 
+/// This will override the standard textfield.
 ///
-/// The Builditems method is used to make the list of field to house the user data.
+/// The Builditems method is used to make the list of 
+/// field to house the user data.
 abstract class ProfileData {
   const ProfileData();
 

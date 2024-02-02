@@ -1,3 +1,7 @@
+## 1.2.1
+
+- Added Iconica CI and Iconica Linter
+
 ## 1.2.0
 
 - Added the posibilty to enable the user to change it's password.

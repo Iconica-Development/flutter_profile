@@ -8,11 +8,11 @@ import 'package:flutter_profile/src/models/user.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({
-    Key? key,
+    super.key,
     this.user,
     this.size = 100,
     this.avatarBackgroundColor,
-  }) : super(key: key);
+  });
 
   final User? user;
   final double size;

@@ -40,7 +40,7 @@ class ItemList {
                 (value) {
                   updateProfile(item.key, value);
                 },
-              )
+              ),
       });
     }
   }

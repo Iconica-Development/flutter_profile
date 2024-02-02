@@ -8,15 +8,15 @@ import 'package:flutter_profile/src/widgets/avatar/avatar.dart';
 
 class AvatarWrapper extends StatelessWidget {
   const AvatarWrapper({
-    Key? key,
     required this.user,
+    super.key,
     this.showName = false,
     this.padding = const EdgeInsets.only(top: 16),
     this.size = 100,
     this.textStyle,
     this.customAvatar,
     this.avatarBackgroundColor,
-  }) : super(key: key);
+  });
 
   final User user;
   final Widget? customAvatar;
