@@ -73,9 +73,9 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
   @override
   void initState() {
+    super.initState();
     _formKey = widget.formKey ?? GlobalKey<FormState>();
 
-    super.initState();
     if (widget.showDefaultItems) {
       if (widget.itemBuilder == null) {
         ItemBuilder builder = ItemBuilder(
@@ -196,50 +196,55 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: SingleChildScrollView(
-        child: SizedBox(
+    return Stack(
+      children: [
+        SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: widget.style.pagePadding,
-            child: Column(
-              children: [
-                if (widget.showAvatar) ...[
-                  InkWell(
-                    onTap: () => widget.service.uploadImage(
-                      context,
-                      onUploadStateChanged: (isUploading) => setState(
-                        () {
-                          _isUploadingImage = isUploading;
-                        },
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: widget.style.pagePadding,
+              child: Column(
+                children: [
+                  if (widget.showAvatar) ...[
+                    InkWell(
+                      onTap: () => widget.service.uploadImage(
+                        context,
+                        onUploadStateChanged: (isUploading) => setState(
+                          () {
+                            _isUploadingImage = isUploading;
+                          },
+                        ),
+                      ),
+                      child: AvatarWrapper(
+                        avatarBackgroundColor: widget.avatarBackgroundColor,
+                        user: widget.user,
+                        textStyle: widget.style.avatarTextStyle,
+                        customAvatar: _isUploadingImage
+                            ? Container(
+                                width: 100,
+                                height: 100,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const CircularProgressIndicator(),
+                              )
+                            : widget.customAvatar,
                       ),
                     ),
-                    child: AvatarWrapper(
-                      avatarBackgroundColor: widget.avatarBackgroundColor,
-                      user: widget.user,
-                      textStyle: widget.style.avatarTextStyle,
-                      customAvatar: _isUploadingImage
-                          ? Container(
-                              width: 100,
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const CircularProgressIndicator(),
-                            )
-                          : widget.customAvatar,
+                    SizedBox(
+                      height: widget.style.betweenDefaultItemPadding,
                     ),
-                  ),
-                  SizedBox(
-                    height: widget.style.betweenDefaultItemPadding,
-                  ),
-                ],
-                if (widget.showItems) Form(key: _formKey, child: child),
-                if (widget.changePasswordConfig.enablePasswordChange) ...[
-                  Expanded(
-                    child: ChangePassword(
+                  ],
+                  if (widget.showItems) ...[
+                    Form(
+                      key: _formKey,
+                      child: child,
+                    ),
+                  ],
+                  if (widget.changePasswordConfig.enablePasswordChange) ...[
+                    ChangePassword(
                       config: widget.changePasswordConfig,
                       service: widget.service,
                       wrapViewOptions: widget.wrapViewOptions,
@@ -248,43 +253,38 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
                       itemBuilderOptions: widget.itemBuilderOptions,
                       style: widget.style,
                     ),
-                  ),
-                ],
-                if (widget.bottomActionText != null) ...[
-                  SizedBox(
-                    height: widget.style.betweenDefaultItemPadding,
-                  ),
-                  if (!widget.changePasswordConfig.enablePasswordChange) ...[
-                    const Spacer(),
                   ],
-                  InkWell(
-                    onTap: () {
-                      widget.service.pageBottomAction();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.bottomActionText!,
-                        style: widget.style.bottomActionTextStyle,
-                      ),
-                    ),
-                  ),
                 ],
-                if (widget.bottomActionText == null &&
-                    !widget.changePasswordConfig.enablePasswordChange) ...[
-                  const Spacer(),
-                ]
-              ],
+              ),
             ),
           ),
         ),
-      ),
+        if (widget.bottomActionText != null &&
+            MediaQuery.of(Scaffold.of(context).context).viewInsets.bottom ==
+                0.0) ...[
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: InkWell(
+              onTap: () {
+                widget.service.pageBottomAction();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.bottomActionText!,
+                  style: widget.style.bottomActionTextStyle,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 
   /// This calls onSaved on all the fiels which check if they have a new value
   void submitAllChangedFields() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState!.save();
     }
   }

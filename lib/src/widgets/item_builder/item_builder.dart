@@ -50,6 +50,7 @@ class ItemBuilder {
 
   Widget buildPassword(
     String key,
+    TextEditingController controller,
     Function(String?) onChanged,
     String? Function(String?) validator,
   ) {
@@ -57,6 +58,7 @@ class ItemBuilder {
         options.inputDecorationField?[key] ?? options.inputDecoration;
 
     return FlutterFormInputPassword(
+      controller: controller,
       style: options.inputTextStyle,
       decoration: inputDecoration,
       onChanged: onChanged,

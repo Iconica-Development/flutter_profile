@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Field has been added so the user can provide it's current password for reauthentication.
+
 ## 1.2.0
 
 - Added the posibilty to enable the user to change it's password.

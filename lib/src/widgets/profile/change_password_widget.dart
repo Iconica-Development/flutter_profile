@@ -32,6 +32,11 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   late final Widget? changePasswordChild;
 
+  late var currentPasswordController = TextEditingController();
+  late var password1Controller = TextEditingController();
+  late var password2Controller = TextEditingController();
+
+  String? currentPassword;
   String? password1;
   String? password2;
 
@@ -52,7 +57,20 @@ class _ChangePasswordState extends State<ChangePassword> {
       clipBehavior: widget.wrapViewOptions?.clipBehavior ?? Clip.none,
       children: [
         builder.buildPassword(
+          'current_password',
+          currentPasswordController,
+          (value) => currentPassword = value,
+          (value) {
+            if (currentPassword?.isEmpty ?? true) {
+              return config.fieldRequiredErrorText;
+            }
+
+            return null;
+          },
+        ),
+        builder.buildPassword(
           'password_1',
+          password1Controller,
           (value) => password1 = value,
           (value) {
             if (password1?.isEmpty ?? true) {
@@ -64,6 +82,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
         builder.buildPassword(
           'password_2',
+          password2Controller,
           (value) => password2 = value,
           (value) {
             if (password2?.isEmpty ?? true) {
@@ -89,15 +108,27 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    void onTapSave() {
-      if ((_formKey.currentState?.validate() ?? false) && password2 != null) {
-        widget.service.changePassword(password2!);
+    void onTapSave() async {
+      if ((_formKey.currentState?.validate() ?? false) &&
+          currentPassword != null &&
+          password2 != null) {
+        if (await widget.service
+            .changePassword(context, currentPassword!, password2!)) {
+          currentPasswordController.clear();
+          password1Controller.clear();
+          password2Controller.clear();
+
+          currentPassword = null;
+          password1 = null;
+          password2 = null;
+        }
       }
     }
 
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             height: widget.style.betweenDefaultItemPadding * 2.5,
@@ -127,7 +158,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                 onPressed: () => onTapSave(),
                 child: const Text('Save password'),
               ),
-          const Spacer(),
         ],
       ),
     );

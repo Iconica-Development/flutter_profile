@@ -27,5 +27,8 @@ class TestProfileService extends ProfileService {
   }) {}
 
   @override
-  FutureOr<void> changePassword(String password) {}
+  FutureOr<bool> changePassword(
+      BuildContext context, String currentPassword, String newPassword) {
+    return true;
+  }
 }
