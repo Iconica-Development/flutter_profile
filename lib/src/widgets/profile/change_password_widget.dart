@@ -108,7 +108,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    void onTapSave() async {
+    Future<void> onTapSave() async {
       if ((_formKey.currentState?.validate() ?? false) &&
           currentPassword != null &&
           password2 != null) {
@@ -152,10 +152,10 @@ class _ChangePasswordState extends State<ChangePassword> {
           ),
           config.saveButtonBuilder?.call(
                 context,
-                () => onTapSave(),
+                onTapSave,
               ) ??
               FilledButton(
-                onPressed: () => onTapSave(),
+                onPressed: onTapSave,
                 child: const Text('Save password'),
               ),
         ],

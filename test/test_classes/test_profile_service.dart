@@ -23,12 +23,15 @@ class TestProfileService extends ProfileService {
   @override
   FutureOr<void> uploadImage(
     BuildContext context, {
+    // ignore: avoid_positional_boolean_parameters
     required Function(bool isUploading) onUploadStateChanged,
   }) {}
 
   @override
   FutureOr<bool> changePassword(
-      BuildContext context, String currentPassword, String newPassword) {
-    return true;
-  }
+    BuildContext context,
+    String currentPassword,
+    String newPassword,
+  ) =>
+      true;
 }

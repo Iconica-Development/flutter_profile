@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
-/// ItemBuilder is used to set the standard textfield for each undefined users data item.
+/// ItemBuilder is used to set the standard textfield for each undefined
+/// users data item.
 ///
 /// Options sets options for the textfield.
 class ItemBuilder {
@@ -16,8 +17,13 @@ class ItemBuilder {
 
   final ItemBuilderOptions options;
 
-  Widget build(String key, dynamic value, Widget? widget,
-      Function(String) updateItem, Function(String?) saveItem) {
+  Widget build(
+    String key,
+    value,
+    Widget? widget,
+    Function(String) updateItem,
+    Function(String?) saveItem,
+  ) {
     if (widget == null) {
       var controller = TextEditingController(
         text: '${value ?? ''}',
@@ -40,9 +46,7 @@ class ItemBuilder {
         onSaved: (newValue) {
           saveItem(newValue);
         },
-        validator: (value) {
-          return options.validators?[key]?.call(value);
-        },
+        validator: (value) => options.validators?[key]?.call(value),
       );
     }
     return widget;

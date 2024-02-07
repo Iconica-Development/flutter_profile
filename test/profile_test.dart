@@ -25,9 +25,9 @@ void main() {
       ),
     );
 
-    final firstNameFinder = find.text('Firstname');
-    final lastNameFinder = find.text('Lastname');
-    final emailFinder = find.text('test@email.com');
+    var firstNameFinder = find.text('Firstname');
+    var lastNameFinder = find.text('Lastname');
+    var emailFinder = find.text('test@email.com');
 
     expect(firstNameFinder, findsOneWidget);
     expect(lastNameFinder, findsOneWidget);
@@ -74,13 +74,13 @@ void main() {
     await tester.testTextInput.receiveAction(TextInputAction.send);
     await tester.pump();
 
-    final firstNameFinder = find.text('Firstname');
-    final firstNameEditedFinder = find.text('FirstEditedName');
+    var firstNameFinder = find.text('Firstname');
+    var firstNameEditedFinder = find.text('FirstEditedName');
 
-    final lastNameFinder = find.text('Lastname');
+    var lastNameFinder = find.text('Lastname');
 
-    final emailFinder = find.text('test@email.com');
-    final emailEditedFinder = find.text('edited@emial.com');
+    var emailFinder = find.text('test@email.com');
+    var emailEditedFinder = find.text('edited@emial.com');
 
     expect(firstNameFinder, findsNothing);
     expect(firstNameEditedFinder, findsOneWidget);

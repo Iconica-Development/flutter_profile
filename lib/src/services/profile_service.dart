@@ -6,15 +6,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile/src/models/user.dart';
 
-/// ProfileService can be extended and set for the profilePage. The following method can be overriden.
+/// ProfileService can be extended and set for the profilePage.
+/// The following method can be overriden.
 ///
-/// BottompageAction is called when the [InkWell] at the bottom of the page is tapped.
+/// BottompageAction is called when the [InkWell] at the bottom of
+/// the page is tapped.
 ///
 /// EditProfile is called when a user changes and submits a standard textfields.
 ///
 /// UploadImage is called when te user presses the avatar.
 ///
-/// changePassword is called when the user requests to change his password. Return true to clear the inputfields.
+/// changePassword is called when the user requests to change his password.
+/// Return true to clear the inputfields.
 abstract class ProfileService {
   const ProfileService();
 
@@ -24,9 +27,13 @@ abstract class ProfileService {
 
   FutureOr<void> uploadImage(
     BuildContext context, {
+    // ignore: avoid_positional_boolean_parameters
     required Function(bool isUploading) onUploadStateChanged,
   });
 
   FutureOr<bool> changePassword(
-      BuildContext context, String currentPassword, String newPassword);
+    BuildContext context,
+    String currentPassword,
+    String newPassword,
+  );
 }
