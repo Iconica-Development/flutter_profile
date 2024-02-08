@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_profile/src/widgets/item_builder/item_builder_options.dart';
 
-/// ItemBuilder is used to set the standard textfield for each undefined 
+/// ItemBuilder is used to set the standard textfield for each undefined
 /// users data item.
 ///
 /// Options sets options for the textfield.
@@ -54,6 +54,7 @@ class ItemBuilder {
 
   Widget buildPassword(
     String key,
+    TextEditingController controller,
     Function(String?) onChanged,
     String? Function(String?) validator,
   ) {
@@ -61,6 +62,7 @@ class ItemBuilder {
         options.inputDecorationField?[key] ?? options.inputDecoration;
 
     return FlutterFormInputPassword(
+      controller: controller,
       style: options.inputTextStyle,
       decoration: inputDecoration,
       onChanged: onChanged,

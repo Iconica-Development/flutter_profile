@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Field has been added so the user can provide it's current password for reauthentication.
+
 ## 1.2.1
 
 - Added Iconica CI and Iconica Linter

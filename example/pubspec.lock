@@ -122,11 +122,11 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "2.7.0"
-      resolved-ref: "8eb1d80a9f08be0b7fe70078104d1a8851083edd"
+      ref: "3.1.0"
+      resolved-ref: "5fca291c5e79c9ad6dad500e4ea5d9b628ee0f5d"
       url: "https://github.com/Iconica-Development/flutter_input_library"
     source: git
-    version: "2.7.0"
+    version: "3.1.0"
   flutter_lints:
     dependency: "direct dev"
     description:

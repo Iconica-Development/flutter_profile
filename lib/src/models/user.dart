@@ -47,10 +47,10 @@ class User {
 
 /// ProfileData is used to store custom/addintional data for a user.
 ///
-/// The MapWidget method is used to bind a [Widget] to one of the keys. 
+/// The MapWidget method is used to bind a [Widget] to one of the keys.
 /// This will override the standard textfield.
 ///
-/// The Builditems method is used to make the list of 
+/// The Builditems method is used to make the list of
 /// field to house the user data.
 abstract class ProfileData {
   const ProfileData();

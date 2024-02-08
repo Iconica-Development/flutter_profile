@@ -30,7 +30,10 @@ class ExampleProfileService extends ProfileService {
   }
 
   @override
-  FutureOr<void> changePassword(String password) {
-    debugPrint(password);
+  FutureOr<bool> changePassword(
+      BuildContext context, String currentPassword, String newPassword) {
+    debugPrint('$currentPassword -> $newPassword');
+
+    return true;
   }
 }
