@@ -1,3 +1,7 @@
+## 1.4.0
+
+- Added CONTRIBUTING.md, documentation and updated flutter_input_library to 3.2.1
+
 ## 1.3.0
 
 - Field has been added so the user can provide it's current password for reauthentication.

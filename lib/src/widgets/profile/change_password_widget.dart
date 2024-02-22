@@ -13,12 +13,25 @@ class ChangePassword extends StatefulWidget {
     super.key,
   });
 
+  /// Configuration for changing password.
   final ChangePasswordConfig config;
+
+  /// Options for wrapping the items.
   final WrapViewOptions? wrapViewOptions;
-  final ItemBuilder? itemBuilder;
-  final ItemBuilderOptions? itemBuilderOptions;
+
+  /// Builder for wrapping items.
   final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
+
+  /// Builder for creating items.
+  final ItemBuilder? itemBuilder;
+
+  /// Options for item builder.
+  final ItemBuilderOptions? itemBuilderOptions;
+
+  /// Styling options for the widget.
   final ProfileStyle style;
+
+  /// Profile service for managing user profile.
   final ProfileService service;
 
   @override

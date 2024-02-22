@@ -38,22 +38,55 @@ class ProfileWrapper extends StatefulWidget {
     super.key,
   });
 
+  /// The user object containing user information.
   final User user;
+
+  /// The service for managing user profile.
   final ProfileService service;
+
+  /// The styling options for the profile.
   final ProfileStyle style;
+
+  /// Custom avatar widget.
   final Widget? customAvatar;
+
+  /// Flag to show or hide the avatar.
   final bool showAvatar;
+
+  /// Background color for the avatar.
   final Color? avatarBackgroundColor;
+
+  /// Text for the bottom action.
   final String? bottomActionText;
+
+  /// Builder for creating items.
   final ItemBuilder? itemBuilder;
-  final WrapViewOptions? wrapViewOptions;
-  final Function() rebuild;
+
+  /// Options for item builder.
   final ItemBuilderOptions? itemBuilderOptions;
+
+  /// Options for wrapping the view.
+  final WrapViewOptions? wrapViewOptions;
+
+  /// Callback to rebuild the widget.
+  final Function() rebuild;
+
+  /// Flag to show default items.
   final bool showDefaultItems;
+
+  /// Flag to show items.
   final bool showItems;
+
+  /// Builder for wrapping items.
   final Widget Function(BuildContext context, Widget child)? wrapItemsBuilder;
-  final Map<String, Widget>? extraWidgets;
+
+  /// Key for the form.
   final GlobalKey<FormState>? formKey;
+
+  /// Additional widgets to be displayed.
+  final Map<String, Widget>? extraWidgets;
+
+  /// Configuration for changing password.
   final ChangePasswordConfig changePasswordConfig;
 
   /// Map keys of items that should be shown first before the default items and

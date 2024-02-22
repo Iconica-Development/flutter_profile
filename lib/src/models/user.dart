@@ -25,13 +25,32 @@ class User {
         imageUrl: data['image_url'],
         profileData: data['profile_data'],
       );
+
+  /// The first name of the user.
   String? firstName;
+
+  /// The last name of the user.
   String? lastName;
+
+  /// The image of the user, stored as Uint8List.
   Uint8List? image;
+
+  /// The URL of the user's image.
   String? imageUrl;
+
+  /// Additional profile data for the user.
   ProfileData? profileData;
 
+  /// The display name of the user, which is a combination of
+  /// the first name and the last name.
+  /// If the first name or the last name is null,
+  /// an empty string is used instead.
   String get displayName => '${firstName ?? ''} ${lastName ?? ''}';
+
+  /// The initials of the user, which are the first characters
+  /// of the first name and the last name.
+  /// If the first name or the last name is null or empty,
+  /// an empty string is used instead.
   String get initials =>
       '${(firstName?.isNotEmpty ?? false) ? firstName![0] : ''}'
       '${(lastName?.isNotEmpty ?? false) ? lastName![0] : ''}';

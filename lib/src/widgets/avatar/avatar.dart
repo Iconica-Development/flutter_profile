@@ -14,8 +14,13 @@ class Avatar extends StatelessWidget {
     this.avatarBackgroundColor,
   });
 
+  /// The user object containing user information.
   final User? user;
+
+  /// Size of the avatar.
   final double size;
+
+  /// Background color of the avatar.
   final Color? avatarBackgroundColor;
 
   @override
@@ -54,6 +59,7 @@ class Avatar extends StatelessWidget {
     );
   }
 
+  /// Returns the image provider based on user's image or image URL.
   ImageProvider? _getImageProvider(User? user) {
     if (user?.image != null) {
       return MemoryImage(user!.image!);
@@ -63,6 +69,8 @@ class Avatar extends StatelessWidget {
     return null;
   }
 
+  /// Generates a color based on the initials of the user's
+  /// first name and last name.
   Color _generateColorWithIntials(String? firstName, String? lastName) {
     var idFirstName = 0;
     var idLastName = 0;
