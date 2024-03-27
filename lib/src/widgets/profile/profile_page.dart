@@ -153,9 +153,19 @@ class WrapViewOptions {
     this.runSpacing,
     this.clipBehavior,
   });
+
+  /// The direction to use as the main axis.
   Axis? direction;
+
+  /// The distance between adjacent children in the cross axis.
   double? spacing;
-  double? runSpacing;
-  Clip? clipBehavior;
+
+  /// How the children should be placed along the main axis.
   WrapAlignment? wrapAlignment;
+
+  /// The distance between adjacent children in the main axis.
+  double? runSpacing;
+
+  /// Determines how visual overflow should be handled.
+  Clip? clipBehavior;
 }

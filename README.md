@@ -31,6 +31,7 @@ Underneath are all paramters, of the 'ProfilePage' widget, listed with an explan
 | itemBuilderOptions | The options used by the standard itemBuilder to alter the function and style of the textfields                                                        |
 | prioritizedItems | The items that are displayed at the top of the page. Before all the other items in the list and the default items |
 
+By default input fields are saved after pressing 'enter' inside of the input field.
 
 ## Issues
 
@@ -38,7 +39,7 @@ Please file any issues, bugs or feature request as an issue on our [GitHub](http
 
 ## Want to contribute
 
-If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](../CONTRIBUTING.md) and send us your [pull request](https://github.com/Iconica-Development/flutter_profile/pulls).
+If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](./CONTRIBUTING.md) and send us your [pull request](https://github.com/Iconica-Development/flutter_profile/pulls).
 
 ## Author
 

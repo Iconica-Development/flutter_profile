@@ -18,13 +18,26 @@ class AvatarWrapper extends StatelessWidget {
     this.avatarBackgroundColor,
   });
 
+  /// The user object containing user information.
   final User user;
+
+  /// Custom widget to be used as an avatar.
   final Widget? customAvatar;
+
+  /// Background color of the avatar.
   final Color? avatarBackgroundColor;
+
+  /// Whether to show the user's name beneath the avatar.
   final bool showName;
+
+  /// Padding around the avatar and the name.
   final EdgeInsets padding;
-  final TextStyle? textStyle;
+
+  /// Size of the avatar.
   final double size;
+
+  /// Style for the user's name.
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +56,8 @@ class AvatarWrapper extends StatelessWidget {
                 padding: padding,
                 child: Flexible(
                   child: Text(
-                    style: textStyle,
                     user.displayName,
+                    style: textStyle,
                   ),
                 ),
               ),
