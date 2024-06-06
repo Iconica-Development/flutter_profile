@@ -1,6 +1,6 @@
 name: flutter_profile
 description: Flutter profile package
-version: 1.4.0
+version: 1.5.0
 repository: https://github.com/Iconica-Development/flutter_profile
 
 publish_to: none
@@ -15,7 +15,7 @@ dependencies:
   flutter_input_library:
     git:
       url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.2.1
+      ref: 3.3.1
 
   flutter:
     sdk: flutter

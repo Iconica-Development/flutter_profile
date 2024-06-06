@@ -1,3 +1,7 @@
+## 1.5.0
+
+- Updated flutter_input_library to 3.2.1
+
 ## 1.4.0
 
 - Added CONTRIBUTING.md, documentation and updated flutter_input_library to 3.2.1
