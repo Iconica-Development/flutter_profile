@@ -1,6 +1,7 @@
 ## 1.5.0
 
 - Updated flutter_input_library to 3.2.1
+- Added the option to give a `BoxFit` to the avatar image
 
 ## 1.4.0
 

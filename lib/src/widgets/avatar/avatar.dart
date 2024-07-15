@@ -12,6 +12,7 @@ class Avatar extends StatelessWidget {
     this.user,
     this.size = 100,
     this.avatarBackgroundColor,
+    this.boxfit = BoxFit.contain,
   });
 
   /// The user object containing user information.
@@ -22,6 +23,8 @@ class Avatar extends StatelessWidget {
 
   /// Background color of the avatar.
   final Color? avatarBackgroundColor;
+
+  final BoxFit boxfit;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class Avatar extends StatelessWidget {
         image: hasImage
             ? DecorationImage(
                 image: imageProvider,
-                fit: BoxFit.contain,
+                fit: boxfit,
               )
             : null,
       ),
