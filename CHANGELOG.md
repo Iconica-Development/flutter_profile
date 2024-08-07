@@ -1,3 +1,6 @@
+## 1.6.0
+* Upgraded flutter_input_library to 3.6.0
+
 ## 1.5.0
 
 - Updated flutter_input_library to 3.2.1
