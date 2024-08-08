@@ -1,6 +1,6 @@
 name: flutter_profile
 description: Flutter profile package
-version: 1.5.0
+version: 1.6.0
 repository: https://github.com/Iconica-Development/flutter_profile
 
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub
@@ -11,10 +11,9 @@ environment:
 
 dependencies:
   cached_network_image: ^3.3.0
-
   flutter_input_library:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
-    version: "^3.3.1"
+    version: ^3.6.0
 
   flutter:
     sdk: flutter
