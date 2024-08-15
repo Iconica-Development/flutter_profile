@@ -12,7 +12,7 @@ class Avatar extends StatelessWidget {
     this.user,
     this.size = 100,
     this.avatarBackgroundColor,
-    this.boxfit = BoxFit.contain,
+    this.boxfit = BoxFit.cover,
   });
 
   /// The user object containing user information.
