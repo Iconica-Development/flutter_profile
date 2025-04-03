@@ -19,14 +19,14 @@ class ItemBuilder {
 
   Widget build(
     String key,
-    value,
+    String? value,
     Widget? widget,
     Function(String) updateItem,
     Function(String?) saveItem,
   ) {
     if (widget == null) {
       var controller = TextEditingController(
-        text: '${value ?? ''}',
+        text: value ?? '',
       );
 
       var inputDecoration =
