@@ -17,7 +17,7 @@ class ExampleProfileData extends ProfileData {
   String? remarks;
 
   @override
-  Map<String, dynamic> mapWidget(
+  Map<String, Widget?> mapWidget(
     VoidCallback update,
     BuildContext context,
   ) {
@@ -38,7 +38,7 @@ class ExampleProfileData extends ProfileData {
   }
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, String?> toMap() {
     return {'email': email, 'about': about, 'remarks': remarks};
   }
 
