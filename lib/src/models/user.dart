@@ -76,9 +76,9 @@ abstract class ProfileData {
 
   ProfileData fromMap(Map<String, dynamic> data);
 
-  Map<String, dynamic> toMap();
+  Map<String, String?> toMap();
 
-  Map<String, dynamic> mapWidget(VoidCallback update, BuildContext context);
+  Map<String, Widget?> mapWidget(VoidCallback update, BuildContext context);
 
   ProfileData create();
 }

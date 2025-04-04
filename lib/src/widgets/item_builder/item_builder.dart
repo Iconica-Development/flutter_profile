@@ -21,8 +21,8 @@ class ItemBuilder {
     String key,
     String? value,
     Widget? widget,
-    Function(String) updateItem,
-    Function(String?) saveItem,
+    void Function(String) updateItem,
+    void Function(String?) saveItem,
   ) {
     if (widget == null) {
       var controller = TextEditingController(
@@ -55,7 +55,7 @@ class ItemBuilder {
   Widget buildPassword(
     String key,
     TextEditingController controller,
-    Function(String?) onChanged,
+    void Function(String?) onChanged,
     String? Function(String?) validator,
   ) {
     var inputDecoration =
