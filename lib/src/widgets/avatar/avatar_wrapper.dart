@@ -46,6 +46,7 @@ class AvatarWrapper extends StatelessWidget {
           user: user,
           size: size,
           avatarBackgroundColor: avatarBackgroundColor,
+          boxfit: BoxFit.cover,
         );
 
     return showName
