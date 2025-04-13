@@ -1,3 +1,7 @@
+## 1.3.2
+
+- Get dependencies from the pub server
+
 ## 1.3.0
 
 - Field has been added so the user can provide it's current password for reauthentication.
