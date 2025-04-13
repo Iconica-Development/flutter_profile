@@ -1,3 +1,7 @@
+## 1.5.2
+
+- Only accept nullable strings when building items for an itemlist
+
 ## 1.5.0
 
 - Updated flutter_input_library to 3.2.1

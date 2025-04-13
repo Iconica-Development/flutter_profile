@@ -2,8 +2,7 @@ name: flutter_profile
 description: Flutter profile package
 version: 1.5.2
 repository: https://github.com/Iconica-Development/flutter_profile
-
-publish_to: none
+publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub
 
 environment:
   sdk: ^3.0.0
@@ -13,9 +12,8 @@ dependencies:
   cached_network_image: ^3.3.0
 
   flutter_input_library:
-    git:
-      url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.3.1
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+    version: ^3.3.1
 
   flutter:
     sdk: flutter
